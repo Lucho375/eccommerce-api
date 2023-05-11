@@ -2,9 +2,10 @@ import { Router } from 'express'
 import userController from '../controllers/user.controller.js'
 const userRoutes = Router()
 
-userRoutes.post('/register', userController.createUser)
-userRoutes.post('/login', userController.login)
-userRoutes.post('/update', userController.updateUserInfo)
-userRoutes.post('/delete', userController.deleteUser)
+userRoutes.get('/', userController.getAll)
+userRoutes.post('/', userController.create)
+userRoutes.get('/:id', userController.getOne)
+userRoutes.put('/:id', userController.updateOne)
+userRoutes.delete('/:id', userController.deleteOne)
 
 export default userRoutes

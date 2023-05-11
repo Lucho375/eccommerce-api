@@ -5,23 +5,24 @@ class UserManager {
     this.userDao = new UsersDao()
   }
 
-  async get(id) {
-    const user = await this.userDao.get(id)
-    return user
+  getAll() {
+    return this.userDao.getAll()
   }
 
-  async createUser(newUser) {
-    return this.userDao.create(newUser)
+  create(user) {
+    return this.userDao.create(user)
   }
 
-  async deleteUser(id) {
-    const user = await this.userDao.delete(id)
-    return user
+  getOne(value = {}) {
+    return this.userDao.getOne(value)
   }
 
-  async updateUser(id, update) {
-    const findedUser = await this.userDao.update(id, update)
-    return findedUser
+  updateOne(id, update) {
+    return this.userDao.updateOne(id, update)
+  }
+
+  deleteOne(id) {
+    return this.userDao.deleteOne(id)
   }
 }
 

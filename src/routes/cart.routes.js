@@ -11,7 +11,4 @@ router
   .put('/:cid/products/:pid', cartController.updateProductQuantity) // Actualiza la cantidad del producto en un carrito
   .delete('/:cid', cartController.deleteAllProducts) // Borra todos los productos de un carrito
 
-// PUT api/carts/:cid deberá actualizar el carrito con un arreglo de productos con el formato especificado arriba.
-// .put('/:cid', (req, res) => {}) ????????????????????????????????????
-
 export default router

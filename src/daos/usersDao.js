@@ -2,21 +2,32 @@ import { hash } from '../helpers/hash.js'
 import UserModel from '../models/user.model.js'
 
 class UsersDao {
-  create(user) {
-    const hashedPass = hash(user.password)
-    return UserModel.create({ ...user, password: hashedPass })
+  async create(user) {
+    const { firstname, lastname, password, email, age } = user
+    const hashedPass = hash(password)
+    return UserModel.create({
+      firstname,
+      lastname,
+      email,
+      age,
+      password: hashedPass
+    })
   }
 
-  get(id) {
-    return UserModel.findById(id)
+  getAll() {
+    return UserModel.find()
   }
 
-  update(id, update) {
-    return UserModel.findByIdAndUpdate(id, { ...update })
+  getOne(id) {
+    return UserModel.findOne(id)
   }
 
-  delete(id) {
-    return UserModel.findByIdAndUpdate(id, { enabled: false })
+  updateOne(id, update) {
+    return UserModel.findByIdAndUpdate({ _id: id }, update)
+  }
+
+  deleteOne(id) {
+    return UserModel.findByIdAndUpdate({ _id: id }, { enabled: false })
   }
 }
 

@@ -1,39 +1,55 @@
 import UserManager from '../helpers/userManager.js'
 
-const manager = new UserManager()
-
 const userController = Object.freeze({
-  createUser: async (req, res) => {
+  getAll: async (req, res) => {
     try {
-      const newUser = await manager.createUser(req.body)
-      res.status(201).send(newUser)
+      const manager = new UserManager()
+      const users = await manager.getAll
+      res.status(200).send({ status: 'success', payload: users })
     } catch (error) {
-      res.status(400).send({ error: error.message })
+      res.status(500).send({ status: 'error', message: error.message })
     }
   },
-  login: async (req, res) => {
+  create: async (req, res) => {
     try {
-      const user = req.body
-      const loggedUser = await manager.login(user)
+      const manager = new UserManager()
+      const newUser = await manager.create(req.body)
+      res.status(201).send({ status: 'success', payload: newUser })
+    } catch (error) {
+      res.status(500).send({ status: 'error', message: error.message })
+    }
+  },
 
-      if (loggedUser) {
-        return res.send('Logeado')
-      }
-      res.send(loggedUser)
+  getOne: async (req, res) => {
+    try {
+      const { id } = req.params
+      const manager = new UserManager()
+      const user = await manager.findOne(id)
+      res.status(200).send({ status: 'success', payload: user })
     } catch (error) {
-      res.send({ error: error.message })
+      res.status(500).send({ status: 'error', message: error.message })
     }
   },
-  updateUserInfo: async (req, res) => {
+
+  updateOne: async (req, res) => {
     try {
+      const { id } = req.params
+      const manager = new UserManager()
+      const updatedUser = await manager.updateOne(id, req.body)
+      res.status(200).send({ status: 'success', payload: updatedUser })
     } catch (error) {
-      console.log(error)
+      res.status(500).send({ status: 'error', message: error.message })
     }
   },
-  deleteUser: async (req, res) => {
+
+  deleteOne: async (req, res) => {
     try {
+      const { id } = req.params
+      const manager = new UserManager()
+      const user = await manager.deleteOne(id)
+      res.status(200).send({ status: 'success', payload: user })
     } catch (error) {
-      console.log(error)
+      res.status(500).send({ status: 'error', message: error.message })
     }
   }
 })
