@@ -1,17 +1,8 @@
-import { hash } from '../helpers/hash.js'
 import UserModel from '../models/user.model.js'
 
 class UsersDao {
-  async create(user) {
-    const { firstname, lastname, password, email, age } = user
-    const hashedPass = hash(password)
-    return UserModel.create({
-      firstname,
-      lastname,
-      email,
-      age,
-      password: hashedPass
-    })
+  create(user) {
+    return UserModel.create(user)
   }
 
   getAll() {

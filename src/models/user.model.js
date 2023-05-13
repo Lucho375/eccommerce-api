@@ -21,7 +21,8 @@ const userSchema = new Schema(
     },
     role: {
       type: String,
-      default: 'USER_ROLE'
+      enum: ['user', 'admin'],
+      default: 'user'
     },
     enabled: {
       type: Boolean,
@@ -30,8 +31,7 @@ const userSchema = new Schema(
     image: {
       type: String,
       required: false,
-      default:
-        'https://res.cloudinary.com/dkruwae6j/image/upload/v1682373644/users/ghs4werjrztszflmxodw.webp'
+      default: 'https://res.cloudinary.com/dkruwae6j/image/upload/v1682373644/users/ghs4werjrztszflmxodw.webp'
     }
   },
   {

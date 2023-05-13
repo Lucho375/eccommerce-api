@@ -1,8 +1,9 @@
+import { request, response } from 'express'
 import { ProductManager } from '../helpers/ProductManager.js'
 import { uploadImage } from '../services/cloudinary.js'
 
 const productController = Object.freeze({
-  getProducts: async (req, res) => {
+  getProducts: async (req = request, res = response) => {
     try {
       const { limit, category, sort } = req.query
       const manager = new ProductManager()
@@ -13,7 +14,7 @@ const productController = Object.freeze({
     }
   },
 
-  getProductById: async (req, res) => {
+  getProductById: async (req = request, res = response) => {
     try {
       const { id } = req.params
       const manager = new ProductManager()
@@ -29,7 +30,7 @@ const productController = Object.freeze({
     }
   },
 
-  createProduct: async (req, res) => {
+  createProduct: async (req = request, res = response) => {
     try {
       const manager = new ProductManager()
       // const img = await uploadImage(
@@ -51,7 +52,7 @@ const productController = Object.freeze({
     }
   },
 
-  deleteProductById: async (req, res) => {
+  deleteProductById: async (req = request, res = response) => {
     try {
       const manager = new ProductManager()
       const { id } = req.params
@@ -67,7 +68,7 @@ const productController = Object.freeze({
     }
   },
 
-  updateProduct: async (req, res) => {
+  updateProduct: async (req = request, res = response) => {
     try {
       const manager = new ProductManager()
       const update = req.body

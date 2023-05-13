@@ -1,7 +1,8 @@
+import { request, response } from 'express'
 import { CartManager } from '../helpers/cartManager.js'
 
 const cartController = Object.freeze({
-  addProduct: async (req, res) => {
+  addProduct: async (req = request, res = response) => {
     try {
       const { cid, pid } = req.params
       const manager = new CartManager()
@@ -12,7 +13,7 @@ const cartController = Object.freeze({
     }
   },
 
-  create: async (req, res) => {
+  create: async (req = request, res = response) => {
     try {
       const manager = new CartManager()
       const cart = await manager.create()
@@ -22,7 +23,7 @@ const cartController = Object.freeze({
     }
   },
 
-  get: async (req, res) => {
+  get: async (req = request, res = response) => {
     try {
       const { cid } = req.params
       const manager = new CartManager()
@@ -33,7 +34,7 @@ const cartController = Object.freeze({
     }
   },
 
-  deleteProduct: async (req, res) => {
+  deleteProduct: async (req = request, res = response) => {
     try {
       const { cid, pid } = req.params
       const manager = new CartManager()
@@ -44,7 +45,7 @@ const cartController = Object.freeze({
     }
   },
 
-  updateProductQuantity: async (req, res) => {
+  updateProductQuantity: async (req = request, res = response) => {
     try {
       const { cid, pid } = req.params
       const { quantity } = req.body
@@ -65,7 +66,7 @@ const cartController = Object.freeze({
     }
   },
 
-  deleteAllProducts: async (req, res) => {
+  deleteAllProducts: async (req = request, res = response) => {
     try {
       const { cid } = req.params
       const manager = new CartManager()

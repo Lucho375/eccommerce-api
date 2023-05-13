@@ -1,17 +1,19 @@
 import UsersDao from '../daos/usersDao.js'
-import bcrypt from 'bcrypt'
+import { compareHash, createHash } from './bcryptHash.js'
 
 class SessionManager {
   constructor() {
     this.userDao = new UsersDao()
   }
 
-  signup(user) {
-    return this.userDao.create(user)
+  async signup(user) {
+    const { password } = user
+    const hashedPassword = await createHash(password)
+    return this.userDao.create({ ...user, password: hashedPassword })
   }
 
   async login(password, databaseUser) {
-    const isValidPass = await bcrypt.compare(password, databaseUser.password)
+    const isValidPass = await compareHash(password, databaseUser.password)
 
     if (!isValidPass) return false
 

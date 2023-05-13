@@ -1,7 +1,8 @@
+import { request, response } from 'express'
 import UserManager from '../helpers/userManager.js'
 
 const userController = Object.freeze({
-  getAll: async (req, res) => {
+  getAll: async (req = request, res = response) => {
     try {
       const manager = new UserManager()
       const users = await manager.getAll
@@ -10,7 +11,7 @@ const userController = Object.freeze({
       res.status(500).send({ status: 'error', message: error.message })
     }
   },
-  create: async (req, res) => {
+  create: async (req = request, res = response) => {
     try {
       const manager = new UserManager()
       const newUser = await manager.create(req.body)
@@ -20,7 +21,7 @@ const userController = Object.freeze({
     }
   },
 
-  getOne: async (req, res) => {
+  getOne: async (req = request, res = response) => {
     try {
       const { id } = req.params
       const manager = new UserManager()
@@ -31,7 +32,7 @@ const userController = Object.freeze({
     }
   },
 
-  updateOne: async (req, res) => {
+  updateOne: async (req = request, res = response) => {
     try {
       const { id } = req.params
       const manager = new UserManager()
@@ -42,7 +43,7 @@ const userController = Object.freeze({
     }
   },
 
-  deleteOne: async (req, res) => {
+  deleteOne: async (req = request, res = response) => {
     try {
       const { id } = req.params
       const manager = new UserManager()
