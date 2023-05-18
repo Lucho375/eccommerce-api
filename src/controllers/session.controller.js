@@ -1,6 +1,8 @@
+import { createToken } from '../helpers/JWT.js'
 import SessionManager from '../helpers/sessionManager.js'
 import UserManager from '../helpers/userManager.js'
 import { request, response } from 'express'
+import jwt from 'jsonwebtoken'
 
 const sessionController = Object.freeze({
   signup: async (req = request, res = response) => {
@@ -28,20 +30,21 @@ const sessionController = Object.freeze({
       const user = await manager.login(password, dbUser)
 
       if (user === false) return res.status(401).send({ status: 'error', message: 'Wrong email or password' }) // wrong password
-      req.session.user = { email: user.email, firstname: user.firstname }
-      res.redirect('/products')
+
+      const accessToken = createToken(user)
+      res.cookie('jwt', accessToken, { httpOnly: true, secure: false, sameSite: 'none', maxAge: 24 * 60 * 60 * 1000 })
+      res.status(200).send({ accessToken })
     } catch (error) {
       res.status(500).send({ status: 'error', error: error.message })
     }
   },
 
   logout: (req = request, res = response) => {
-    req.session.destroy(error => {
-      if (!error) {
-        return res.status(200).send({ status: 'success' })
-      }
-      res.status(500).send({ status: 'error', error })
-    })
+    const cookies = req.cookies
+    if (!cookies?.jwt) return res.sendStatus(204) // if no cookies status no-content
+
+    res.clearCookie('jwt', { httpOnly: true, sameSite: 'none', secure: false })
+    res.sendStatus(204)
   }
 })
 

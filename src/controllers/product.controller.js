@@ -19,10 +19,7 @@ const productController = Object.freeze({
       const { id } = req.params
       const manager = new ProductManager()
       const product = await manager.findById(id)
-      if (product === null)
-        return res
-          .status(404)
-          .send({ status: 'error', message: `cannot find product ${id}` })
+      if (product === null) return res.status(404).send({ status: 'error', message: `cannot find product ${id}` })
 
       res.status(200).send(product)
     } catch (error) {
@@ -58,10 +55,7 @@ const productController = Object.freeze({
       const { id } = req.params
 
       const product = await manager.delete(id)
-      if (product === null)
-        return res
-          .status(404)
-          .send({ status: 'error', message: `cannot find product ${id}` })
+      if (product === null) return res.status(404).send({ status: 'error', message: `cannot find product ${id}` })
       return res.send(product)
     } catch (error) {
       res.status(500).send({ error: error.message })
@@ -75,9 +69,7 @@ const productController = Object.freeze({
       const { id } = req.params
       const updatedProduct = await manager.update(id, update)
       if (updatedProduct === null) {
-        return res
-          .status(404)
-          .send({ status: 'error', message: `Cannot find product ${id}` })
+        return res.status(404).send({ status: 'error', message: `Cannot find product ${id}` })
       }
       res.status(200).send(updatedProduct)
     } catch (error) {

@@ -22,7 +22,9 @@ class SessionManager {
       firstname: databaseUser.firstname,
       lastname: databaseUser.lastname,
       email: databaseUser.email,
-      age: databaseUser.age
+      age: databaseUser.age,
+      image: databaseUser.image,
+      roles: databaseUser.role
     }
   }
 

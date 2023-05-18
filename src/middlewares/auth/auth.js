@@ -1,17 +1,27 @@
+import 'dotenv/config'
 import UserManager from '../../helpers/userManager.js'
+import jwt from 'jsonwebtoken'
+import { request, response } from 'express'
 
-export function isAuthenticated(req, res, next) {
-  if (req.session.user) return next()
-  return res.status(401).end() // Unauthorized
+export function isAuthenticated(req = request, res = response, next) {
+  const authHeader = req.headers.authorization || req.headers.Authorization
+  if (!authHeader) return res.sendStatus(401) // Unauthorized
+  const token = authHeader.split(' ')[1]
+
+  try {
+    const user = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+    req.user = user
+    next()
+  } catch (error) {
+    res.sendStatus(403)
+  }
 }
 
-export async function isAdminAuthenticated(req, res, next) {
+export async function isAdmin(req, res, next) {
   try {
-    const user = req.session.user
-    if (!user) return res.status(401).end()
     const manager = new UserManager()
-    const isAdmin = (await manager.getOne({ email: user.email })).role === 'admin'
-    if (!isAdmin) return res.status(403).end() // forbidden
+    const isAdmin = (await manager.getOne({ email: req.user.email })).role === 'admin'
+    if (!isAdmin) return res.sendStatus(403) // forbidden
     return next()
   } catch (error) {
     res.status(500).send({ status: 'error', message: error.message })

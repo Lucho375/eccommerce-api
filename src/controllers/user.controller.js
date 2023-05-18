@@ -5,12 +5,13 @@ const userController = Object.freeze({
   getAll: async (req = request, res = response) => {
     try {
       const manager = new UserManager()
-      const users = await manager.getAll
+      const users = await manager.getAll()
       res.status(200).send({ status: 'success', payload: users })
     } catch (error) {
       res.status(500).send({ status: 'error', message: error.message })
     }
   },
+
   create: async (req = request, res = response) => {
     try {
       const manager = new UserManager()

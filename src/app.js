@@ -27,8 +27,8 @@ app.use(
 app.use(urlencoded({ extended: true, limit: '2mb' }))
 app.use(express.json({ limit: '2mb' }))
 app.use('/products', productsRoutes)
-app.use('/session', sessionRoutes)
-app.use('/user', userRoutes)
+app.use('/sessions', sessionRoutes)
+app.use('/users', userRoutes)
 app.use('/carts', cartRoutes)
 
 export default app
