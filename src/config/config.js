@@ -6,7 +6,8 @@ export default {
   SERVER_PORT: process.env.PORT,
   MONGO_DB_URI: DB,
   corsOptions: {
-    origin: '*'
+    origin: 'http://localhost:5173',
+    credentials: true
   },
   cloudinaryConfig: {
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,

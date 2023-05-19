@@ -6,6 +6,7 @@ const sessionRoutes = Router()
 sessionRoutes.post('/signup', checkAvailableEmail, sessionController.signup)
 sessionRoutes.post('/login', sessionController.login)
 sessionRoutes.get('/logout', sessionController.logout)
+sessionRoutes.get('/refreshtoken', sessionController.refreshToken)
 sessionRoutes.get('/get', (req, res) => res.send(req.session.user))
 
 export default sessionRoutes

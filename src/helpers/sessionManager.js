@@ -27,10 +27,6 @@ class SessionManager {
       roles: databaseUser.role
     }
   }
-
-  get(user) {
-    return this.userDao.get(user)
-  }
 }
 
 export default SessionManager

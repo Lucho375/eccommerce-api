@@ -9,8 +9,8 @@ class UsersDao {
     return UserModel.find()
   }
 
-  getOne(id) {
-    return UserModel.findOne(id)
+  async getOne(value) {
+    return UserModel.findOne(value)
   }
 
   updateOne(id, update) {

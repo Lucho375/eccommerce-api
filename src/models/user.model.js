@@ -14,6 +14,10 @@ const userSchema = new Schema(
       type: String,
       required: true
     },
+    age: {
+      type: Number,
+      required: false
+    },
     email: {
       type: String,
       unique: true,
@@ -32,6 +36,11 @@ const userSchema = new Schema(
       type: String,
       required: false,
       default: 'https://res.cloudinary.com/dkruwae6j/image/upload/v1682373644/users/ghs4werjrztszflmxodw.webp'
+    },
+    refreshToken: {
+      type: String,
+      required: false,
+      default: ''
     }
   },
   {

@@ -13,9 +13,9 @@ const app = express()
 
 // Config
 app.use(cors(config.corsOptions))
-app.use(cookieParser())
 app.use(urlencoded({ extended: true, limit: '2mb' }))
 app.use(express.json({ limit: '2mb' }))
+app.use(cookieParser())
 
 // ROUTES
 app.use('/products', productsRoutes)
