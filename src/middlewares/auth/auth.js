@@ -13,6 +13,7 @@ export function isAuthenticated(req = request, res = response, next) {
     req.user = user
     next()
   } catch (error) {
+    if (error.message.includes('expired')) return res.sendStatus(401)
     res.sendStatus(403)
   }
 }
@@ -24,6 +25,6 @@ export async function isAdmin(req, res, next) {
     if (!isAdmin) return res.sendStatus(403) // forbidden
     return next()
   } catch (error) {
-    res.status(500).send({ status: 'error', message: error.message })
+    next(error)
   }
 }

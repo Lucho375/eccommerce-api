@@ -7,10 +7,8 @@ export async function checkAvailableEmail(req, res, next) {
     const user = await manager.getOne({ email })
     if (user === null) return next()
 
-    return res
-      .status(400)
-      .send({ status: 'error', message: 'User email already exists' })
+    return res.status(400).send({ status: 'error', message: 'User email already exists' })
   } catch (error) {
-    res.status(500).send({ status: 'error', error: error.message })
+    next(error)
   }
 }

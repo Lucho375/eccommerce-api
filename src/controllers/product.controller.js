@@ -3,18 +3,18 @@ import { ProductManager } from '../helpers/ProductManager.js'
 import { uploadImage } from '../services/cloudinary.js'
 
 const productController = Object.freeze({
-  getProducts: async (req = request, res = response) => {
+  getProducts: async (req = request, res = response, next) => {
     try {
       const { limit, category, sort } = req.query
       const manager = new ProductManager()
       const products = await manager.findAll(limit, category, sort)
       res.status(200).send({ status: 'success', payload: products })
     } catch (error) {
-      res.status(500).send(error.message)
+      next(error)
     }
   },
 
-  getProductById: async (req = request, res = response) => {
+  getProductById: async (req = request, res = response, next) => {
     try {
       const { id } = req.params
       const manager = new ProductManager()
@@ -23,11 +23,11 @@ const productController = Object.freeze({
 
       res.status(200).send(product)
     } catch (error) {
-      res.status(500).send(error.message)
+      next(error)
     }
   },
 
-  createProduct: async (req = request, res = response) => {
+  createProduct: async (req = request, res = response, next) => {
     try {
       const manager = new ProductManager()
       // const img = await uploadImage(
@@ -45,11 +45,11 @@ const productController = Object.freeze({
       const addedProd = await manager.createProduct(newProduct)
       res.status(201).send(addedProd)
     } catch (error) {
-      res.status(500).send({ error: error.message })
+      next(error)
     }
   },
 
-  deleteProductById: async (req = request, res = response) => {
+  deleteProductById: async (req = request, res = response, next) => {
     try {
       const manager = new ProductManager()
       const { id } = req.params
@@ -58,11 +58,11 @@ const productController = Object.freeze({
       if (product === null) return res.status(404).send({ status: 'error', message: `cannot find product ${id}` })
       return res.send(product)
     } catch (error) {
-      res.status(500).send({ error: error.message })
+      next(error)
     }
   },
 
-  updateProduct: async (req = request, res = response) => {
+  updateProduct: async (req = request, res = response, next) => {
     try {
       const manager = new ProductManager()
       const update = req.body
@@ -73,7 +73,7 @@ const productController = Object.freeze({
       }
       res.status(200).send(updatedProduct)
     } catch (error) {
-      res.status(500).send({ error: error.message })
+      next(error)
     }
   }
 })
