@@ -1,12 +1,12 @@
 import { Router } from 'express'
-import sessionController from '../controllers/session.controller.js'
 import { checkAvailableEmail } from '../middlewares/checkAvailableEmail.js'
+import SessionController from '../controllers/session.controller.js'
 const sessionRoutes = Router()
 
-sessionRoutes.post('/signup', checkAvailableEmail, sessionController.signup)
-sessionRoutes.post('/login', sessionController.login)
-sessionRoutes.get('/logout', sessionController.logout)
-sessionRoutes.get('/refreshtoken', sessionController.refreshToken)
-sessionRoutes.get('/get', (req, res) => res.send(req.session.user))
+sessionRoutes
+  .post('/signup', checkAvailableEmail, SessionController.signup)
+  .post('/login', SessionController.login)
+  .get('/logout', SessionController.logout)
+  .get('/refreshtoken', SessionController.refreshToken)
 
 export default sessionRoutes

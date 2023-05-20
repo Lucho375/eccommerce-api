@@ -9,7 +9,7 @@ class UsersDao {
     return UserModel.find()
   }
 
-  async getOne(value) {
+  getOne(value) {
     return UserModel.findOne(value)
   }
 
