@@ -11,6 +11,11 @@ import errorHandler from './middlewares/errorHandler.js'
 
 const app = express()
 
+app.use((req, res, next) => {
+  console.log(req.method)
+  next()
+})
+
 // Config
 app.use(cors(config.corsOptions))
 app.use(urlencoded({ extended: true, limit: '2mb' }))

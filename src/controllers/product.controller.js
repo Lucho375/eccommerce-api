@@ -1,7 +1,8 @@
 import { request, response } from 'express'
 import { ProductManager } from '../helpers/ProductManager.js'
 import { uploadImage } from '../services/cloudinary.js'
-
+import ZodValidator from '../validations/zodValidator.js'
+import { productSchemaValidation } from '../validations/schemas/product.js'
 export class ProductController {
   static async getProducts(req = request, res = response, next) {
     try {
@@ -26,7 +27,7 @@ export class ProductController {
     }
   }
 
-  static async createProduct(req = request, res = response, next) {
+  static async createProduct(req, res, next) {
     try {
       // const img = await uploadImage(
       //   req.body.image,
@@ -39,7 +40,9 @@ export class ProductController {
       //     .status(400)
       //     .send({ status: 'error', message: 'Failed to upload image!' })
       // const newProduct = { ...req.body, thumbnail: img.public_id }
-      const newProduct = { ...req.body }
+      // const newProduct = { ...req.body }
+
+      const newProduct = new ZodValidator(productSchemaValidation).create({ ...req.body })
       const manager = new ProductManager()
       const addedProd = await manager.createProduct(newProduct)
       res.status(201).send(addedProd)
