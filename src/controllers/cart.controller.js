@@ -1,8 +1,8 @@
 import { request, response } from 'express'
 import { CartManager } from '../helpers/cartManager.js'
 
-const cartController = Object.freeze({
-  addProduct: async (req = request, res = response, next) => {
+export class CartController {
+  static async addProduct(req = request, res = response, next) {
     try {
       const { cid, pid } = req.params
       const manager = new CartManager()
@@ -11,9 +11,9 @@ const cartController = Object.freeze({
     } catch (error) {
       next(error)
     }
-  },
+  }
 
-  create: async (req = request, res = response, next) => {
+  static async create(req = request, res = response, next) {
     try {
       const manager = new CartManager()
       const cart = await manager.create()
@@ -21,9 +21,9 @@ const cartController = Object.freeze({
     } catch (error) {
       next(error)
     }
-  },
+  }
 
-  get: async (req = request, res = response, next) => {
+  static async get(req = request, res = response, next) {
     try {
       const { cid } = req.params
       const manager = new CartManager()
@@ -32,9 +32,9 @@ const cartController = Object.freeze({
     } catch (error) {
       next(error)
     }
-  },
+  }
 
-  deleteProduct: async (req = request, res = response, next) => {
+  static async deleteProduct(req = request, res = response, next) {
     try {
       const { cid, pid } = req.params
       const manager = new CartManager()
@@ -43,9 +43,9 @@ const cartController = Object.freeze({
     } catch (error) {
       next(error)
     }
-  },
+  }
 
-  updateProductQuantity: async (req = request, res = response, next) => {
+  static async updateProductQuantity(req = request, res = response, next) {
     try {
       const { cid, pid } = req.params
       const { quantity } = req.body
@@ -57,9 +57,9 @@ const cartController = Object.freeze({
     } catch (error) {
       next(error)
     }
-  },
+  }
 
-  deleteAllProducts: async (req = request, res = response, next) => {
+  static async deleteAllProducts(req = request, res = response, next) {
     try {
       const { cid } = req.params
       const manager = new CartManager()
@@ -69,6 +69,4 @@ const cartController = Object.freeze({
       next(error)
     }
   }
-})
-
-export default cartController
+}

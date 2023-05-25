@@ -1,8 +1,8 @@
 import { request, response } from 'express'
 import UserManager from '../helpers/userManager.js'
 
-const userController = Object.freeze({
-  getAll: async (req = request, res = response, next) => {
+export class UserController {
+  static async getAll(req = request, res = response, next) {
     try {
       const manager = new UserManager()
       const users = await manager.getAll()
@@ -10,9 +10,9 @@ const userController = Object.freeze({
     } catch (error) {
       next(error)
     }
-  },
+  }
 
-  create: async (req = request, res = response, next) => {
+  static async create(req = request, res = response, next) {
     try {
       const manager = new UserManager()
       const newUser = await manager.create(req.body)
@@ -20,9 +20,9 @@ const userController = Object.freeze({
     } catch (error) {
       next(error)
     }
-  },
+  }
 
-  getOne: async (req = request, res = response, next) => {
+  static async getOne(req = request, res = response, next) {
     try {
       const { id } = req.params
       const manager = new UserManager()
@@ -31,9 +31,9 @@ const userController = Object.freeze({
     } catch (error) {
       res.status(500).send({ status: 'error', message: error.message })
     }
-  },
+  }
 
-  updateOne: async (req = request, res = response, next) => {
+  static async updateOne(req = request, res = response, next) {
     try {
       const { id } = req.params
       const manager = new UserManager()
@@ -42,9 +42,9 @@ const userController = Object.freeze({
     } catch (error) {
       next(error)
     }
-  },
+  }
 
-  deleteOne: async (req = request, res = response, next) => {
+  static async deleteOne(req = request, res = response, next) {
     try {
       const { id } = req.params
       const manager = new UserManager()
@@ -54,6 +54,4 @@ const userController = Object.freeze({
       next(error)
     }
   }
-})
-
-export default userController
+}

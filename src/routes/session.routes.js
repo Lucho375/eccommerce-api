@@ -6,6 +6,8 @@ const sessionRoutes = Router()
 sessionRoutes
   .post('/signup', checkAvailableEmail, SessionController.signup)
   .post('/login', SessionController.login)
+  .post('/forgot-password', SessionController.forgotPassword)
+  .post('/reset-password', SessionController.resetPassword)
   .get('/logout', SessionController.logout)
   .get('/refreshtoken', SessionController.refreshToken)
 

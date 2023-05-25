@@ -1,7 +1,9 @@
-import UsersDao from '../daos/usersDao.js'
 import jwt from 'jsonwebtoken'
-import { createAccessToken, createRefreshToken } from './JWT.js'
+
+import UsersDao from '../daos/usersDao.js'
+import { createAccessToken, createForgotPasswordToken, createRefreshToken, verifyRefreshToken } from './JWT.js'
 import { compareHash, createHash } from './bcryptHash.js'
+import { emailOptions, sendMail } from '../services/sendEmail.js'
 
 class SessionManager {
   constructor() {
@@ -19,7 +21,10 @@ class SessionManager {
     if (!user) return null // Wrong email
 
     const isValidPass = await compareHash(password, user.password)
-    if (!isValidPass) return false // Wrong password
+    if (!isValidPass) {
+      await sendMail({ email }, emailOptions.wrongPassword)
+      return false // Wrong password
+    }
 
     const dto = {
       id: user._id,
@@ -34,37 +39,37 @@ class SessionManager {
     const accessToken = createAccessToken(dto)
     const refreshToken = createRefreshToken(dto)
 
-    await this.userDao.updateOne(user._id, { refreshToken })
-
     return {
       accessToken,
       refreshToken
     }
   }
 
-  async logout(refreshToken) {
-    const user = await this.userDao.getOne({ refreshToken })
-    if (!user) return
-    await this.userDao.updateOne(user._id, { refreshToken: '' })
+  async refreshToken(refreshToken) {
+    const decoded = verifyRefreshToken(refreshToken)
+    return createAccessToken({
+      id: decoded._id,
+      firstname: decoded.firstname,
+      lastname: decoded.lastname,
+      email: decoded.email,
+      age: decoded.age,
+      roles: decoded.role
+    })
   }
 
-  async refreshToken(refreshToken) {
-    const user = await this.userDao.getOne({ refreshToken })
-    if (!user) return null // Forbidden
+  async forgotPassword(email) {
+    const user = await this.userDao.getOne({ email })
+    if (!user) return null
+    const { password, refreshToken, role, createdAt, updatedAt, __v, enabled, image, ...rest } = user._doc
+    const token = createForgotPasswordToken({ ...rest })
+    await sendMail({ email: user.email, token }, emailOptions.changePassword)
+  }
 
-    return jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decodedUser) => {
-      if (err || decodedUser.username !== user.username) return null // Forbidden
-
-      return createAccessToken({
-        id: user._id,
-        firstname: user.firstname,
-        lastname: user.lastname,
-        email: user.email,
-        age: user.age,
-        image: user.image,
-        roles: user.role
-      })
-    })
+  async resetPassword(token, newPassword) {
+    const decodedUser = jwt.verify(token, process.env.RESET_PASSWORD_TOKEN_SECRET)
+    const hashedPassword = await createHash(newPassword)
+    const updatedUser = await this.userDao.updateOne(decodedUser._id, { password: hashedPassword })
+    return updatedUser
   }
 }
 

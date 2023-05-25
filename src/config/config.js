@@ -14,5 +14,13 @@ export default {
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
     secure: true
+  },
+  nodeMailerConfig: {
+    host: 'smtp.gmail.com',
+    port: 587,
+    auth: {
+      user: process.env.NODEMAILER_AUTH_USERNAME,
+      pass: process.env.NODEMAILER_AUTH_PASSWORD
+    }
   }
 }

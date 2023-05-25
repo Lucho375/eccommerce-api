@@ -2,8 +2,8 @@ import { request, response } from 'express'
 import { ProductManager } from '../helpers/ProductManager.js'
 import { uploadImage } from '../services/cloudinary.js'
 
-const productController = Object.freeze({
-  getProducts: async (req = request, res = response, next) => {
+export class ProductController {
+  static async getProducts(req = request, res = response, next) {
     try {
       const { limit, category, sort } = req.query
       const manager = new ProductManager()
@@ -12,24 +12,22 @@ const productController = Object.freeze({
     } catch (error) {
       next(error)
     }
-  },
+  }
 
-  getProductById: async (req = request, res = response, next) => {
+  static async getProductById(req = request, res = response, next) {
     try {
       const { id } = req.params
       const manager = new ProductManager()
       const product = await manager.findById(id)
       if (product === null) return res.status(404).send({ status: 'error', message: `cannot find product ${id}` })
-
       res.status(200).send(product)
     } catch (error) {
       next(error)
     }
-  },
+  }
 
-  createProduct: async (req = request, res = response, next) => {
+  static async createProduct(req = request, res = response, next) {
     try {
-      const manager = new ProductManager()
       // const img = await uploadImage(
       //   req.body.image,
       //   'products',
@@ -42,31 +40,31 @@ const productController = Object.freeze({
       //     .send({ status: 'error', message: 'Failed to upload image!' })
       // const newProduct = { ...req.body, thumbnail: img.public_id }
       const newProduct = { ...req.body }
+      const manager = new ProductManager()
       const addedProd = await manager.createProduct(newProduct)
       res.status(201).send(addedProd)
     } catch (error) {
       next(error)
     }
-  },
+  }
 
-  deleteProductById: async (req = request, res = response, next) => {
+  static async deleteProductById(req = request, res = response, next) {
     try {
-      const manager = new ProductManager()
       const { id } = req.params
-
+      const manager = new ProductManager()
       const product = await manager.delete(id)
       if (product === null) return res.status(404).send({ status: 'error', message: `cannot find product ${id}` })
       return res.send(product)
     } catch (error) {
       next(error)
     }
-  },
+  }
 
-  updateProduct: async (req = request, res = response, next) => {
+  static async updateProduct(req = request, res = response, next) {
     try {
-      const manager = new ProductManager()
       const update = req.body
       const { id } = req.params
+      const manager = new ProductManager()
       const updatedProduct = await manager.update(id, update)
       if (updatedProduct === null) {
         return res.status(404).send({ status: 'error', message: `Cannot find product ${id}` })
@@ -76,6 +74,4 @@ const productController = Object.freeze({
       next(error)
     }
   }
-})
-
-export default productController
+}

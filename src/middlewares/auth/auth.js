@@ -2,6 +2,7 @@ import 'dotenv/config'
 import UserManager from '../../helpers/userManager.js'
 import jwt from 'jsonwebtoken'
 import { request, response } from 'express'
+import { verifyAccessToken } from '../../helpers/JWT.js'
 
 export function isAuthenticated(req = request, res = response, next) {
   const authHeader = req.headers.authorization || req.headers.Authorization
@@ -9,7 +10,7 @@ export function isAuthenticated(req = request, res = response, next) {
   const token = authHeader.split(' ')[1]
 
   try {
-    const user = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+    const user = verifyAccessToken(token)
     req.user = user
     next()
   } catch (error) {

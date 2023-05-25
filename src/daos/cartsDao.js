@@ -27,11 +27,7 @@ class CartsDao {
   }
 
   deleteProduct(cid, pid) {
-    return CartModel.findByIdAndUpdate(
-      cid,
-      { $pull: { products: { _id: pid } } },
-      { new: true }
-    )
+    return CartModel.findByIdAndUpdate(cid, { $pull: { products: { _id: pid } } }, { new: true })
   }
 
   updateProductQuantity(cid, pid, quantity) {
@@ -43,11 +39,7 @@ class CartsDao {
   }
 
   deleteAllProducts(cid) {
-    return CartModel.findByIdAndUpdate(
-      { _id: cid },
-      { $set: { products: [] } },
-      { new: true }
-    )
+    return CartModel.findByIdAndUpdate({ _id: cid }, { $set: { products: [] } }, { new: true })
   }
 }
 

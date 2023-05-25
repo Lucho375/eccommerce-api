@@ -9,6 +9,6 @@ import config from './config/config.js'
   }
   await MongoDbConnection()
   const httpServer = app.listen(SERVER_PORT, () =>
-    console.log(`Server running on port : ${SERVER_PORT}`)
+    console.log(`Server running on port : ${SERVER_PORT} ${process.env.NODE_ENV}`)
   )
 })()
