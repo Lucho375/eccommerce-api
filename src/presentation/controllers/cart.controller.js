@@ -1,8 +1,7 @@
-import { request, response } from 'express'
-import { CartManager } from '../helpers/cartManager.js'
+import { CartManager } from '../../domain/managers/cartManager.js'
 
 export class CartController {
-  static async addProduct(req = request, res = response, next) {
+  static async addProduct(req, res, next) {
     try {
       const { cid, pid } = req.params
       const manager = new CartManager()
@@ -13,7 +12,7 @@ export class CartController {
     }
   }
 
-  static async create(req = request, res = response, next) {
+  static async create(req, res, next) {
     try {
       const manager = new CartManager()
       const cart = await manager.create()
@@ -23,7 +22,7 @@ export class CartController {
     }
   }
 
-  static async get(req = request, res = response, next) {
+  static async get(req, res, next) {
     try {
       const { cid } = req.params
       const manager = new CartManager()
@@ -34,7 +33,7 @@ export class CartController {
     }
   }
 
-  static async deleteProduct(req = request, res = response, next) {
+  static async deleteProduct(req, res, next) {
     try {
       const { cid, pid } = req.params
       const manager = new CartManager()
@@ -45,7 +44,7 @@ export class CartController {
     }
   }
 
-  static async updateProductQuantity(req = request, res = response, next) {
+  static async updateProductQuantity(req, res, next) {
     try {
       const { cid, pid } = req.params
       const { quantity } = req.body
@@ -59,7 +58,7 @@ export class CartController {
     }
   }
 
-  static async deleteAllProducts(req = request, res = response, next) {
+  static async deleteAllProducts(req, res, next) {
     try {
       const { cid } = req.params
       const manager = new CartManager()

@@ -1,14 +1,17 @@
 import { Router } from 'express'
-import { checkAvailableEmail } from '../middlewares/checkAvailableEmail.js'
 import SessionController from '../controllers/session.controller.js'
 const sessionRoutes = Router()
 
 sessionRoutes
-  .post('/signup', checkAvailableEmail, SessionController.signup)
+  .post('/signup', SessionController.signup)
   .post('/login', SessionController.login)
   .post('/forgot-password', SessionController.forgotPassword)
   .post('/reset-password', SessionController.resetPassword)
   .get('/logout', SessionController.logout)
-  .get('/refreshtoken', SessionController.refreshToken)
+  .get('/refresh-token', SessionController.refreshToken)
+  .get('/cookie', (req, res) => {
+    console.log(req.cookies)
+    res.send({ refreshToken: req.cookies.refreshToken })
+  })
 
 export default sessionRoutes

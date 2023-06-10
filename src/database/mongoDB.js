@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import config from '../config/config.js'
+import config from '../config/index.js'
 
 async function MongoDbConnection() {
   const { MONGO_DB_URI } = config

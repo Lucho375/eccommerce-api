@@ -1,10 +1,7 @@
-import 'dotenv/config'
-import UserManager from '../../helpers/userManager.js'
-import jwt from 'jsonwebtoken'
-import { request, response } from 'express'
-import { verifyAccessToken } from '../../helpers/JWT.js'
+import UserManager from '../../../domain/managers/userManager.js'
+import { verifyAccessToken } from '../../../helpers/JWT.js'
 
-export function isAuthenticated(req = request, res = response, next) {
+export function isAuthenticated(req, res, next) {
   const authHeader = req.headers.authorization || req.headers.Authorization
   if (!authHeader) return res.sendStatus(401) // Unauthorized
   const token = authHeader.split(' ')[1]
@@ -14,8 +11,7 @@ export function isAuthenticated(req = request, res = response, next) {
     req.user = user
     next()
   } catch (error) {
-    if (error.message.includes('expired')) return res.sendStatus(401)
-    res.sendStatus(403)
+    next(error)
   }
 }
 

@@ -1,9 +1,14 @@
 import jwt from 'jsonwebtoken'
-
-import UsersDao from '../daos/usersDao.js'
-import { createAccessToken, createForgotPasswordToken, createRefreshToken, verifyRefreshToken } from './JWT.js'
-import { compareHash, createHash } from './bcryptHash.js'
-import { emailOptions, sendMail } from '../services/sendEmail.js'
+import 'dotenv/config'
+import UsersDao from '../../data/daos/usersDao.js'
+import {
+  createAccessToken,
+  createForgotPasswordToken,
+  createRefreshToken,
+  verifyRefreshToken
+} from '../../helpers/JWT.js'
+import { compareHash, createHash } from '../../helpers/bcryptHash.js'
+import { emailOptions, sendMail } from '../../services/sendEmail.js'
 
 class SessionManager {
   constructor() {
@@ -27,7 +32,7 @@ class SessionManager {
     }
 
     const dto = {
-      id: user._id,
+      id: user._id.toString(),
       firstname: user.firstname,
       lastname: user.lastname,
       email: user.email,
@@ -41,7 +46,8 @@ class SessionManager {
 
     return {
       accessToken,
-      refreshToken
+      refreshToken,
+      dto
     }
   }
 
@@ -53,6 +59,7 @@ class SessionManager {
       lastname: decoded.lastname,
       email: decoded.email,
       age: decoded.age,
+      image: decoded.image,
       roles: decoded.role
     })
   }

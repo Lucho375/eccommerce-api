@@ -1,5 +1,5 @@
 import { v2 as cloudinary } from 'cloudinary'
-import config from '../config/config.js'
+import config from '../config/index.js'
 
 cloudinary.config(config.cloudinaryConfig)
 
@@ -9,9 +9,5 @@ export async function uploadImage(image, folder, imageName) {
     public_id: imageName,
     overwrite: true
   }
-  try {
-    return cloudinary.uploader.upload(image, options)
-  } catch (error) {
-    return error
-  }
+  return cloudinary.uploader.upload(image, options)
 }

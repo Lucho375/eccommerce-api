@@ -4,9 +4,10 @@ import jwt from 'jsonwebtoken'
 const { TokenExpiredError, JsonWebTokenError } = jwt // COMMONJS
 
 export default function (error, req, res, next) {
-  console.log('next')
   // JWT TOKENS
-  if (error instanceof TokenExpiredError || error instanceof JsonWebTokenError) return res.sendStatus(401)
+  if (error instanceof TokenExpiredError || error instanceof JsonWebTokenError) {
+    return res.status(403).send({ status: 'error', message: 'Invalid token' })
+  }
 
   // ZodError
   if (error instanceof ZodError)
@@ -15,5 +16,5 @@ export default function (error, req, res, next) {
   // Mongoose
   if (error instanceof Error.ValidationError) return res.status(400).send(error)
 
-  return res.status(500).send({ error: 'Internal server error' })
+  return res.status(500).send({ error: 'Internal server error', message: error.message })
 }

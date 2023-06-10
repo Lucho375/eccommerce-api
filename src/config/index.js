@@ -20,5 +20,10 @@ export default {
       user: process.env.NODEMAILER_AUTH_USERNAME,
       pass: process.env.NODEMAILER_AUTH_PASSWORD
     }
+  },
+  JWT: {
+    ACCESS: process.env.ACCESS_TOKEN_SECRET,
+    REFRESH: process.env.REFRESH_TOKEN_SECRET,
+    RESET_PASSWORD: process.env.RESET_PASSWORD_TOKEN_SECRET
   }
 }

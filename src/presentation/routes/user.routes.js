@@ -6,8 +6,8 @@ const userRoutes = Router()
 userRoutes
   .get('/', isAuthenticated, isAdmin, UserController.getAll)
   .post('/', isAuthenticated, isAdmin, UserController.create)
-  .get('/:id', UserController.getOne)
-  .put('/:id', UserController.updateOne)
+  .get('/:id', isAuthenticated, isAdmin, UserController.getOne)
+  .put('/:id', isAuthenticated, isAdmin, UserController.updateOne)
   .delete('/:id', isAuthenticated, isAdmin, UserController.deleteOne)
 
 export default userRoutes

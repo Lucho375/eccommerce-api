@@ -1,4 +1,4 @@
-import CartsDao from '../daos/cartsDao.js'
+import CartsDao from '../../data/daos/cartsDao.js'
 
 export class CartManager {
   constructor() {

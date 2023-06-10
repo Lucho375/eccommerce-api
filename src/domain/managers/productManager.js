@@ -1,4 +1,4 @@
-import { ProductsDao } from '../daos/productsDao.js'
+import { ProductsDao } from '../../data/daos/productsDao.js'
 
 export class ProductManager {
   constructor() {

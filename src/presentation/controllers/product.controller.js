@@ -1,10 +1,9 @@
-import { request, response } from 'express'
-import { ProductManager } from '../helpers/ProductManager.js'
-import { uploadImage } from '../services/cloudinary.js'
-import ZodValidator from '../validations/zodValidator.js'
-import { productSchemaValidation } from '../validations/schemas/product.js'
+import { ProductManager } from '../../domain/managers/productManager.js'
+import { uploadImage } from '../../services/cloudinary.js'
+import ZodValidator from '../../domain/validations/zodValidator.js'
+import { productSchemaValidation } from '../../domain/validations/schemas/product.js'
 export class ProductController {
-  static async getProducts(req = request, res = response, next) {
+  static async getProducts(req, res, next) {
     try {
       const { limit, category, sort } = req.query
       const manager = new ProductManager()
@@ -15,7 +14,7 @@ export class ProductController {
     }
   }
 
-  static async getProductById(req = request, res = response, next) {
+  static async getProductById(req, res, next) {
     try {
       const { id } = req.params
       const manager = new ProductManager()
@@ -51,7 +50,7 @@ export class ProductController {
     }
   }
 
-  static async deleteProductById(req = request, res = response, next) {
+  static async deleteProductById(req, res, next) {
     try {
       const { id } = req.params
       const manager = new ProductManager()
@@ -63,7 +62,7 @@ export class ProductController {
     }
   }
 
-  static async updateProduct(req = request, res = response, next) {
+  static async updateProduct(req, res, next) {
     try {
       const update = req.body
       const { id } = req.params

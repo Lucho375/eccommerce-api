@@ -1,7 +1,6 @@
-import SessionManager from '../helpers/sessionManager.js'
-import { request, response } from 'express'
+import SessionManager from '../../domain/managers/sessionManager.js'
 class SessionController {
-  static async signup(req = request, res = response, next) {
+  static async signup(req, res, next) {
     try {
       const manager = new SessionManager()
       await manager.signup(req.body)
@@ -11,7 +10,7 @@ class SessionController {
     }
   }
 
-  static async login(req = request, res = response, next) {
+  static async login(req, res, next) {
     try {
       const { email, password } = req.body
       const manager = new SessionManager()
@@ -20,27 +19,27 @@ class SessionController {
       if (loginAttempt === false) {
         return res.status(401).send({ status: 'error', message: 'Wrong email or password' }) // wrong password
       }
-      const { accessToken, refreshToken } = loginAttempt
+      const { accessToken, refreshToken, dto } = loginAttempt
 
       res
         .cookie('refreshToken', refreshToken, {
           httpOnly: true,
-          secure: false,
+          secure: true, // HTTPS
           sameSite: 'none',
           maxAge: 2000 * 60 // 3 min
         })
         .status(200)
-        .send({ accessToken })
+        .send({ accessToken, user: { ...dto } })
     } catch (error) {
       next(error)
     }
   }
 
-  static async logout(req = request, res = response, next) {
+  static async logout(req, res, next) {
     try {
       const cookies = req?.cookies
       if (!cookies?.refreshToken) return res.sendStatus(204) // if no cookies status no-content
-      res.clearCookie('refreshToken', { httpOnly: true, sameSite: 'none', secure: false })
+      res.clearCookie('refreshToken', { httpOnly: true, sameSite: 'none', secure: true })
       res.sendStatus(204)
     } catch (error) {
       next(error)
@@ -61,24 +60,24 @@ class SessionController {
     }
   }
 
-  static async forgotPassword(req = request, res = response, next) {
+  static async forgotPassword(req, res, next) {
     try {
       const { email } = req.body
       const manager = new SessionManager()
       const token = await manager.forgotPassword(email)
-      if (token === null) return res.sendStatus(400)
-      res.status(200).send({ token })
+      if (token === null) return res.status(400).send({ status: 'error', message: 'User not found' })
+      res.status(200).send({ status: 'success' })
     } catch (error) {
       next(error)
     }
   }
 
-  static async resetPassword(req = request, res = response, next) {
+  static async resetPassword(req, res, next) {
     try {
-      const { token } = req.query
-      const { newPassword } = req.body
+      const { token } = req.body
+      const { password } = req.body
       const manager = new SessionManager()
-      const passwordHasUpdated = await manager.resetPassword(token, newPassword)
+      const passwordHasUpdated = await manager.resetPassword(token, password)
       if (passwordHasUpdated) return res.sendStatus(204)
       res.sendStatus(400)
     } catch (error) {

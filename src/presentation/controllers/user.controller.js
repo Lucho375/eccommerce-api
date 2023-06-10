@@ -1,8 +1,7 @@
-import { request, response } from 'express'
-import UserManager from '../helpers/userManager.js'
+import UserManager from '../../domain/managers/userManager.js'
 
 export class UserController {
-  static async getAll(req = request, res = response, next) {
+  static async getAll(req, res, next) {
     try {
       const manager = new UserManager()
       const users = await manager.getAll()
@@ -12,7 +11,7 @@ export class UserController {
     }
   }
 
-  static async create(req = request, res = response, next) {
+  static async create(req, res, next) {
     try {
       const manager = new UserManager()
       const newUser = await manager.create(req.body)
@@ -22,7 +21,7 @@ export class UserController {
     }
   }
 
-  static async getOne(req = request, res = response, next) {
+  static async getOne(req, res, next) {
     try {
       const { id } = req.params
       const manager = new UserManager()
@@ -33,7 +32,7 @@ export class UserController {
     }
   }
 
-  static async updateOne(req = request, res = response, next) {
+  static async updateOne(req, res, next) {
     try {
       const { id } = req.params
       const manager = new UserManager()
@@ -44,7 +43,7 @@ export class UserController {
     }
   }
 
-  static async deleteOne(req = request, res = response, next) {
+  static async deleteOne(req, res, next) {
     try {
       const { id } = req.params
       const manager = new UserManager()
