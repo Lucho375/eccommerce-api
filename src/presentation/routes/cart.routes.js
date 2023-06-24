@@ -10,5 +10,6 @@ router
   .delete('/:cid/products/:pid', CartController.deleteProduct) // Elimina un producto de el carrito
   .put('/:cid/products/:pid', CartController.updateProductQuantity) // Actualiza la cantidad del producto en un carrito
   .delete('/:cid', CartController.deleteAllProducts) // Borra todos los productos de un carrito
+  .post('/:cid/purchase', CartController.checkout) // finalizar compra
 
 export default router

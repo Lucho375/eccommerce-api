@@ -5,10 +5,11 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "set NODE_ENV=development&& nodemon index.js",
+    "start": "node ./src/index.js",
+    "dev": "set NODE_ENV=development&& nodemon ./src/index.js",
     "test": "set NODE_OPTIONS=--experimental-vm-modules && jest --verbose --silent",
-    "test:watch": "npm run test -- --watchAll"
+    "test:watch": "npm run test -- --watchAll",
+    "vercel-build": "echo test"
   },
   "keywords": [],
   "author": "",

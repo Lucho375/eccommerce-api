@@ -42,6 +42,10 @@ class CartsDao {
   deleteAllProducts(cid) {
     return CartModel.findByIdAndUpdate({ _id: cid }, { $set: { products: [] } }, { new: true })
   }
+
+  checkout(cid) {
+    return CartModel.findById(cid).populate('userId', 'email').populate('products._id')
+  }
 }
 
 export default CartsDao

@@ -63,7 +63,18 @@ export class CartController {
       const { cid } = req.params
       const manager = new CartManager()
       const cart = await manager.deleteAllProducts(cid)
-      res.send({ ok: true, payload: cart })
+      res.status(200).send({ ok: true, payload: cart })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  static async checkout(req, res, next) {
+    try {
+      const { cid } = req.params
+      const manager = new CartManager()
+      const buyDetails = await manager.checkout(cid)
+      res.status(200).send({ ok: true, payload: buyDetails })
     } catch (error) {
       next(error)
     }
