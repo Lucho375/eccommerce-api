@@ -1,14 +1,22 @@
 import { model, Schema } from 'mongoose'
 
 const CartSchema = new Schema({
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
   products: {
     type: [
       {
         _id: {
-          type: Schema.Types.ObjectId
+          type: Schema.Types.ObjectId,
+          ref: 'Product',
+          required: true
         },
         quantity: {
-          type: Number
+          type: Number,
+          required: true
         }
       }
     ],
@@ -16,6 +24,6 @@ const CartSchema = new Schema({
   }
 })
 
-const CartModel = model('Carts', CartSchema)
+const CartModel = model('Cart', CartSchema)
 
 export default CartModel

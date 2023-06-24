@@ -8,7 +8,7 @@ export class ProductController {
       const { limit, category, sort } = req.query
       const manager = new ProductManager()
       const products = await manager.findAll(limit, category, sort)
-      res.status(200).send({ status: 'success', payload: products })
+      res.status(200).send({ ok: true, payload: products })
     } catch (error) {
       next(error)
     }
@@ -19,8 +19,8 @@ export class ProductController {
       const { id } = req.params
       const manager = new ProductManager()
       const product = await manager.findById(id)
-      if (product === null) return res.status(404).send({ status: 'error', message: `cannot find product ${id}` })
-      res.status(200).send(product)
+      if (product === null) return res.status(404).send({ ok: false, message: `cannot find product ${id}` })
+      res.status(200).send({ ok: true, payload: product })
     } catch (error) {
       next(error)
     }
@@ -44,7 +44,7 @@ export class ProductController {
       const newProduct = new ZodValidator(productSchemaValidation).create({ ...req.body })
       const manager = new ProductManager()
       const addedProd = await manager.createProduct(newProduct)
-      res.status(201).send(addedProd)
+      res.status(201).send({ ok: true, payload: addedProd })
     } catch (error) {
       next(error)
     }
@@ -55,8 +55,8 @@ export class ProductController {
       const { id } = req.params
       const manager = new ProductManager()
       const product = await manager.delete(id)
-      if (product === null) return res.status(404).send({ status: 'error', message: `cannot find product ${id}` })
-      return res.send(product)
+      if (product === null) return res.status(404).send({ ok: false, message: `cannot find product ${id}` })
+      res.status(204).send({ ok: true })
     } catch (error) {
       next(error)
     }
@@ -69,9 +69,9 @@ export class ProductController {
       const manager = new ProductManager()
       const updatedProduct = await manager.update(id, update)
       if (updatedProduct === null) {
-        return res.status(404).send({ status: 'error', message: `Cannot find product ${id}` })
+        return res.status(404).send({ ok: false, message: `Cannot find product ${id}` })
       }
-      res.status(200).send(updatedProduct)
+      res.status(200).send({ ok: true, payload: updatedProduct })
     } catch (error) {
       next(error)
     }

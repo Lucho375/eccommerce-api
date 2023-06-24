@@ -4,7 +4,7 @@ import { CartController } from '../controllers/cart.controller.js'
 const router = Router()
 
 router
-  .get('/:cid', CartController.get) // Obtiene un carrito
+  .get('/:userId', CartController.get) // Obtiene un carrito
   .post('/', CartController.create) // Crea un carrito
   .post('/:cid/products/:pid', CartController.addProduct) // Agrega un producto al carrito
   .delete('/:cid/products/:pid', CartController.deleteProduct) // Elimina un producto de el carrito

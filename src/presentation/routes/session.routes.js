@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import SessionController from '../controllers/session.controller.js'
+import { isAuthenticated } from '../middlewares/auth/auth.js'
 const sessionRoutes = Router()
 
 sessionRoutes
@@ -9,9 +10,6 @@ sessionRoutes
   .post('/reset-password', SessionController.resetPassword)
   .get('/logout', SessionController.logout)
   .get('/refresh-token', SessionController.refreshToken)
-  .get('/cookie', (req, res) => {
-    console.log(req.cookies)
-    res.send({ refreshToken: req.cookies.refreshToken })
-  })
+  .get('/current', isAuthenticated, SessionController.getCurrentUser)
 
 export default sessionRoutes

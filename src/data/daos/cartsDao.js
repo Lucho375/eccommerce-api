@@ -2,28 +2,29 @@ import CartModel from '../models/cart.model.js'
 
 class CartsDao {
   async addProduct(cid, pid) {
-    const updatedCart = await CartModel.findByIdAndUpdate(
-      { _id: cid, 'products._id': pid },
-      { $inc: { 'products.$.quantity': 1 } },
-      { new: true }
-    )
-
-    if (updatedCart) return updatedCart
-
+    const cart = await CartModel.findOne({ _id: cid, 'products._id': pid })
+    if (cart) {
+      const updatedCart = await CartModel.findOneAndUpdate(
+        { _id: cid, 'products._id': pid },
+        { $inc: { 'products.$.quantity': 1 } },
+        { new: true }
+      )
+      return updatedCart
+    }
     const newCart = await CartModel.findByIdAndUpdate(
       cid,
-      { $addToSet: { products: { _id: pid, quantity: 1 } } },
+      { $push: { products: { _id: pid, quantity: 1 } } },
       { new: true }
     )
     return newCart
   }
 
-  create() {
-    return CartModel.create({ products: [] })
+  create({ userId }) {
+    return CartModel.create({ userId })
   }
 
-  get(cid) {
-    return CartModel.findById({ _id: cid })
+  get(userId) {
+    return CartModel.findOne({ userId })
   }
 
   deleteProduct(cid, pid) {
@@ -31,7 +32,7 @@ class CartsDao {
   }
 
   updateProductQuantity(cid, pid, quantity) {
-    return CartModel.findByIdAndUpdate(
+    return CartModel.findOneAndUpdate(
       { _id: cid, 'products._id': pid },
       { $set: { 'products.$.quantity': quantity } },
       { new: true }

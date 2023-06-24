@@ -20,7 +20,7 @@ export async function isAdmin(req, res, next) {
     const manager = new UserManager()
     const isAdmin = (await manager.getOne({ email: req.user.email })).role === 'admin'
     if (!isAdmin) return res.sendStatus(403) // forbidden
-    return next()
+    next()
   } catch (error) {
     next(error)
   }

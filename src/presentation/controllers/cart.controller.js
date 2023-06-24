@@ -6,7 +6,7 @@ export class CartController {
       const { cid, pid } = req.params
       const manager = new CartManager()
       const cart = await manager.addProduct(cid, pid)
-      res.status(201).send({ status: 'success', payload: cart })
+      res.status(200).send({ ok: true, payload: cart })
     } catch (error) {
       next(error)
     }
@@ -15,8 +15,8 @@ export class CartController {
   static async create(req, res, next) {
     try {
       const manager = new CartManager()
-      const cart = await manager.create()
-      res.status(201).send({ status: 'success', payload: cart })
+      const cart = await manager.create(req.body)
+      res.status(201).send({ ok: true, payload: cart })
     } catch (error) {
       next(error)
     }
@@ -24,10 +24,10 @@ export class CartController {
 
   static async get(req, res, next) {
     try {
-      const { cid } = req.params
+      const { userId } = req.params
       const manager = new CartManager()
-      const cart = await manager.get(cid)
-      res.send({ status: 'success', payload: cart })
+      const cart = await manager.get(userId)
+      res.status(200).send({ ok: true, payload: cart })
     } catch (error) {
       next(error)
     }
@@ -37,8 +37,8 @@ export class CartController {
     try {
       const { cid, pid } = req.params
       const manager = new CartManager()
-      await manager.deleteProduct(cid, pid)
-      res.status(200).send({ status: 'success' })
+      const cart = await manager.deleteProduct(cid, pid)
+      res.status(200).send({ ok: true, payload: cart })
     } catch (error) {
       next(error)
     }
@@ -50,9 +50,9 @@ export class CartController {
       const { quantity } = req.body
       const manager = new CartManager()
       const updatedCart = await manager.updateProductQuantity(cid, pid, quantity)
-      if (!updatedCart) return res.status(404).send({ status: 'error', message: 'Cart or product not found' })
+      if (!updatedCart) return res.status(404).send({ ok: false, message: 'Cart or product not found' })
 
-      res.status(200).send({ status: 'success', payload: updatedCart })
+      res.status(200).send({ ok: true, payload: updatedCart })
     } catch (error) {
       next(error)
     }
@@ -63,7 +63,7 @@ export class CartController {
       const { cid } = req.params
       const manager = new CartManager()
       const cart = await manager.deleteAllProducts(cid)
-      res.send({ status: 'success', payload: cart })
+      res.send({ ok: true, payload: cart })
     } catch (error) {
       next(error)
     }

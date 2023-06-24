@@ -15,9 +15,9 @@ const EMAIL_TEMPLATES = {
       <h2 style="color: red;">
       Someone tried to log in to your account. If it was you, please ignore this email. Otherwise,
       </h2>
-        <a href="http://localhost/change-password" target="_blank" style="display: block">
-        Click here to change your password
-        </a>
+      <a href="http://localhost/change-password" target="_blank" style="display: block">
+      Click here to change your password
+      </a>
       </div>
       `
     }
@@ -32,10 +32,11 @@ const EMAIL_TEMPLATES = {
   }
 }
 
+const transporter = nodemailer.createTransport(config.nodeMailerConfig)
+
 export async function sendMail({ email, token }, options) {
   try {
     const emailTemplate = EMAIL_TEMPLATES[options](token)
-    const transporter = nodemailer.createTransport(config.nodeMailerConfig)
     await transporter.sendMail({
       from: 'ECCOMMERCE',
       to: email,

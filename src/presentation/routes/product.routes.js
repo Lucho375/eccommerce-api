@@ -7,8 +7,8 @@ const productsRoutes = Router()
 
 productsRoutes
   //  PUBLIC
-  .get('/', isAuthenticated, isAdmin, ProductController.getProducts) // Obtiene todos los productos
-  .get('/:id', ProductController.getProductById) // Obtiene un producto por id
+  .get('/', isAuthenticated, ProductController.getProducts) // Obtiene todos los productos
+  .get('/:id', isAuthenticated, ProductController.getProductById) // Obtiene un producto por id
 
   // PRIVATE
   .post('/', isAuthenticated, isAdmin, ProductController.createProduct) // Crea un producto

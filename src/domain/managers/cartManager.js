@@ -1,4 +1,5 @@
 import CartsDao from '../../data/daos/cartsDao.js'
+import { NotFoundError } from '../validations/ValidationError.js'
 
 export class CartManager {
   constructor() {
@@ -9,12 +10,18 @@ export class CartManager {
     return this.cartDao.addProduct(cid, pid)
   }
 
-  create() {
-    return this.cartDao.create()
+  create(cart) {
+    return this.cartDao.create(cart)
   }
 
-  get(cid) {
-    return this.cartDao.get(cid)
+  async get(userId) {
+    const cart = await this.cartDao.get(userId)
+    if (!cart) throw new NotFoundError('Cart doesnt exists')
+
+    return {
+      id: cart._id,
+      products: cart.products
+    }
   }
 
   deleteProduct(cid, pid) {

@@ -1,13 +1,9 @@
-import MongoDbConnection from './database/mongoDB.js'
-import config from './config/index.js'
+import DbFactory from './data/factories/dbFactory.js'
 import AppFactory from './presentation/factories/appFactory.js'
+import config from './config/index.js'
 ;(async function () {
-  const { SERVER_PORT } = config
-  if (!SERVER_PORT) {
-    throw new Error('Missing PORT environment variable')
-  }
-  await MongoDbConnection()
-
+  const db = DbFactory.create()
+  db.init(config.MONGO_DB_URI)
   const app = AppFactory.create()
   app.init()
   app.build()
