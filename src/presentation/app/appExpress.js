@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser'
 import userRoutes from '../routes/user.routes.js'
 import productsRoutes from '../routes/product.routes.js'
 import cartRoutes from '../routes/cart.routes.js'
+import ticketRoutes from '../routes/ticket.routes.js'
 import config from '../../config/index.js'
 import sessionRoutes from '../routes/session.routes.js'
 import errorHandler from '../middlewares/errorHandler.js'
@@ -26,6 +27,7 @@ class AppExpress {
     this.app.use('/sessions', sessionRoutes)
     this.app.use('/users', userRoutes)
     this.app.use('/carts', cartRoutes)
+    this.app.use('/tickets', ticketRoutes)
 
     // ErrorHandler
     this.app.use(errorHandler)

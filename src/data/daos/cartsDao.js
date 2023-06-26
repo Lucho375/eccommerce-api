@@ -1,4 +1,5 @@
 import CartModel from '../models/cart.model.js'
+import ProductModel from '../models/product.model.js'
 
 class CartsDao {
   async addProduct(cid, pid) {
@@ -19,12 +20,12 @@ class CartsDao {
     return newCart
   }
 
-  create({ userId }) {
-    return CartModel.create({ userId })
+  create({ user }) {
+    return CartModel.create({ user })
   }
 
-  get(userId) {
-    return CartModel.findOne({ userId })
+  get(user) {
+    return CartModel.findOne({ user })
   }
 
   deleteProduct(cid, pid) {
@@ -43,8 +44,19 @@ class CartsDao {
     return CartModel.findByIdAndUpdate({ _id: cid }, { $set: { products: [] } }, { new: true })
   }
 
-  checkout(cid) {
-    return CartModel.findById(cid).populate('userId', 'email').populate('products._id')
+  async checkout(cid) {
+    const cartToCheckout = await CartModel.findById(cid)
+      .populate('user', '-_id email')
+      .populate('products._id', 'price')
+
+    return {
+      ...cartToCheckout._doc,
+      products: cartToCheckout.products.map(({ _id, quantity }) => ({
+        _id: _id._id,
+        price: _id.price,
+        quantity
+      }))
+    }
   }
 }
 

@@ -24,9 +24,9 @@ export class CartController {
 
   static async get(req, res, next) {
     try {
-      const { userId } = req.params
+      const { user } = req.params
       const manager = new CartManager()
-      const cart = await manager.get(userId)
+      const cart = await manager.get(user)
       res.status(200).send({ ok: true, payload: cart })
     } catch (error) {
       next(error)
