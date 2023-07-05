@@ -72,7 +72,7 @@ describe('Testing endpoints', function () {
       const response = await requester
         .get('/sessions/current')
         .expect('Content-Type', /json/)
-        .set('Authorization', `Bearer ${token}125`)
+        .set('Authorization', 'Bearer invalidtoken')
         .expect(403)
       expect(response.body).toEqual({ status: 'error', message: 'Invalid token' })
     })
