@@ -24,6 +24,16 @@ class MongooseAdapter {
       throw err
     }
   }
+
+  async dropDatabase() {
+    try {
+      await mongoose.connection.dropDatabase()
+      console.log('Database dropped')
+    } catch (err) {
+      console.error('Error dropping database')
+      throw err
+    }
+  }
 }
 
 export default MongooseAdapter

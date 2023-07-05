@@ -13,7 +13,6 @@ class TicketController {
   static async getAll(req, res, next) {
     try {
       const { purchaser } = req.query
-      console.log(purchaser)
       const manager = new TicketManager()
       const tickets = await manager.getAll(purchaser)
       res.status(200).send({ ok: true, payload: tickets })

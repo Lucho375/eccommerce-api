@@ -36,6 +36,10 @@ class AppExpress {
     this.app.all('*', NotFound)
   }
 
+  getApp() {
+    return this.app
+  }
+
   listen() {
     return this.app.listen(this.app.port, () => console.log(`Server running on port : ${this.app.port}`))
   }

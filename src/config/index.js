@@ -2,7 +2,6 @@ import 'dotenv/config'
 
 export default {
   SERVER_PORT: process.env.PORT,
-  // MONGO_DB_URI: process.env.NODE_ENV === 'production' ? process.env.MONGO_DB_URI : process.env.MONGO_DB_LOCALHOST,
   MONGO_DB_URI: process.env.MONGO_DB_URI,
   corsOptions: {
     origin: 'http://localhost:5173',
