@@ -7,7 +7,7 @@ const { TokenExpiredError, JsonWebTokenError } = jwt // COMMONJS
 export default function (error, req, res, next) {
   // JWT TOKENS
   if (error instanceof TokenExpiredError || error instanceof JsonWebTokenError) {
-    return res.status(401).send({ status: 'error', message: 'Invalid token' })
+    return res.status(403).send({ status: 'error', message: 'Invalid token' })
   }
 
   // ZodError

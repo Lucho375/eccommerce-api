@@ -4,8 +4,8 @@ import { verifyAccessToken } from '../../helpers/JWT.js'
 
 describe('Testing endpoints', function () {
   let db
-  let server
   let token
+  let requester
   const userData = {
     email: 'test@test.com',
     password: '123456789'
@@ -22,38 +22,59 @@ describe('Testing endpoints', function () {
     const { db: dbInstance, app } = await TestServer()
     db = dbInstance
     await db.init('mongodb://127.0.0.1:27017/test')
-    server = app.getApp()
+    requester = request(app.getApp())
   })
 
-  describe('unauthorized', function () {
-    it('status code must be 401', async function () {
-      const response = await request(server).get('/products')
-      expect(response.status).toBe(401)
+  describe('Unauthorized Access', function () {
+    it('should return status 401 for /products', async function () {
+      await requester.get('/products').expect(401)
     })
   })
 
-  describe('creating account /sessions/signup', function () {
-    it('status code must be 201', async function () {
-      const response = await request(server).post('/sessions/signup').send(newAccount)
-      expect(response.status).toBe(201)
+  describe('Account Creation (/sessions/signup)', function () {
+    it('should return status 201 for successful account creation', async function () {
+      await requester.post('/sessions/signup').send(newAccount).expect(201).expect('Content-Type', /json/)
     })
   })
 
-  describe('test /sessions/login', function () {
-    it('must return valid jwt', async function () {
-      const response = await request(server).post('/sessions/login').send(userData)
-      expect(response.status).toEqual(200)
-      const verifiedToken = verifyAccessToken(response.body.payload)
-      expect(verifiedToken.email).toEqual(userData.email)
+  describe('User Login (/sessions/login)', function () {
+    it('should return a valid JWT token', async function () {
+      const response = await requester.post('/sessions/login').send(userData).expect('Content-Type', /json/).expect(200)
+      const verifiyToken = verifyAccessToken(response.body.payload)
+      expect(verifiyToken.email).toEqual(userData.email)
       token = response.body.payload
     })
   })
 
-  describe('test /sessions/current', function () {
-    it('must return user data', async function () {
-      const response = await request(server).get('/sessions/current').set('Authorization', `Bearer ${token}`)
-      expect(response.status).toEqual(200)
+  describe('Unauthorized Access to /sessions/current', function () {
+    it('should return status 401 for invalid login credentials', async function () {
+      const response = await requester
+        .post('/sessions/login')
+        .send({ ...userData, password: 'invalidpassword' })
+        .expect(401)
+      expect(response.body).toEqual({ ok: false, message: 'Wrong email or password' })
+    })
+  })
+
+  describe('Accessing /sessions/current with a valid token', function () {
+    it('should return user data for authenticated request', async function () {
+      const response = await requester
+        .get('/sessions/current')
+        .expect('Content-Type', /json/)
+        .set('Authorization', `Bearer ${token}`)
+        .expect(200)
       expect(response.body.payload.firstname).toEqual(newAccount.firstname)
+    })
+  })
+
+  describe('Accessing /sessions/current with a invalid token', function () {
+    it('should return status 403', async function () {
+      const response = await requester
+        .get('/sessions/current')
+        .expect('Content-Type', /json/)
+        .set('Authorization', `Bearer ${token}125`)
+        .expect(403)
+      expect(response.body).toEqual({ status: 'error', message: 'Invalid token' })
     })
   })
 
