@@ -19,6 +19,7 @@
     "no-trailing-spaces": "off",
     "no-empty": "off",
     "indent": "off",
-    "quotes": ["error", "single"]
+    "quotes": ["error", "single"],
+    "camelcase": "off"
   }
 }
