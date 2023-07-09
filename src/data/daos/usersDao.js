@@ -18,7 +18,7 @@ class UsersDao {
   }
 
   deleteOne(id) {
-    return UserModel.findByIdAndUpdate({ _id: id }, { enabled: false })
+    return UserModel.findByIdAndUpdate({ _id: id }, { enabled: false }, { new: true })
   }
 }
 

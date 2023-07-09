@@ -1,5 +1,4 @@
 import CartModel from '../models/cart.model.js'
-import ProductModel from '../models/product.model.js'
 
 class CartsDao {
   async addProduct(cid, pid) {
