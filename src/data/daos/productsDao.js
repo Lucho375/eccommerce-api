@@ -6,45 +6,17 @@ export class ProductsDao {
     const limitQuery = limit ? { limit } : {}
     const sortQuery = sort === 'asc' ? { price: 1 } : sort === 'desc' ? { price: -1 } : {}
     const products = await ProductModel.find(query, {}, limitQuery).sort(sortQuery)
-
-    return products.map(({ title, description, price, stock, thumbnail, _id, category, status }) => ({
-      id: _id,
-      title,
-      description,
-      price,
-      stock,
-      thumbnail,
-      category,
-      status
-    }))
+    return products
   }
 
   async createProduct(newProduct) {
-    const { title, category, description, code, thumbnail, price, stock } = newProduct
-    return ProductModel.create({
-      title,
-      category,
-      description,
-      code,
-      thumbnail,
-      price,
-      stock
-    })
+    return ProductModel.create(newProduct)
   }
 
   async getProductById(id) {
     const product = await ProductModel.findById(id)
     if (!product) return null
-    return {
-      id: product._id,
-      title: product.title,
-      description: product.description,
-      price: product.price,
-      stock: product.stock,
-      thumbnail: product.thumbnail,
-      category: product.category,
-      status: product.status
-    }
+    return product
   }
 
   async updateProduct(id, update) {

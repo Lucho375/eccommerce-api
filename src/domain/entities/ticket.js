@@ -1,6 +1,6 @@
 class Ticket {
-  constructor({ _id, code, purchase_datetime, amount, purchaser, products }) {
-    this.id = _id
+  constructor({ id, code, purchase_datetime, amount, purchaser, products }) {
+    this.id = id
     this.code = code
     this.purchase_datetime = purchase_datetime
     this.amount = amount

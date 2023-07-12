@@ -1,4 +1,5 @@
 import CartsDao from '../../data/daos/cartsDao.js'
+import Cart from '../entities/cart.js'
 import { NotFoundError, ValidationError } from '../validations/ValidationError.js'
 import { ProductManager } from './productManager.js'
 import { TicketManager } from './ticketManager.js'
@@ -14,18 +15,25 @@ export class CartManager {
     return this.cartDao.addProduct(cid, pid)
   }
 
-  create(cart) {
-    return this.cartDao.create(cart)
+  async create(cart) {
+    const cartInDb = await this.cartDao.create(cart)
+
+    return new Cart({
+      id: cartInDb._id,
+      user: cartInDb.user,
+      products: cartInDb.products
+    })
   }
 
   async get(user) {
     const cart = await this.cartDao.get(user)
     if (!cart) throw new NotFoundError('Cart doesnt exists')
 
-    return {
+    return new Cart({
       id: cart._id,
+      user: cart.user,
       products: cart.products
-    }
+    })
   }
 
   deleteProduct(cid, pid) {
@@ -64,7 +72,7 @@ export class CartManager {
       }
     }
 
-    const ticket = this.ticketManager.create({
+    const ticket = await this.ticketManager.create({
       amount: totalAmount,
       purchaser: checkoutCart.user.email,
       products: checkoutCart.products

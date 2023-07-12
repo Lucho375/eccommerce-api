@@ -1,6 +1,6 @@
 class Cart {
-  constructor({ _id, user, products }) {
-    this.id = _id
+  constructor({ id, user, products }) {
+    this.id = id
     this.user = user
     this.products = products
   }

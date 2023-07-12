@@ -1,6 +1,6 @@
 class Product {
-  constructor({ _id, title, category, description, code, thumbnail, price, stock, status }) {
-    this.id = _id
+  constructor({ id, title, category, description, code, thumbnail, price, stock, status, createdAt, updatedAt }) {
+    this.id = id
     this.title = title
     this.category = category
     this.description = description
@@ -9,6 +9,8 @@ class Product {
     this.price = price
     this.stock = stock
     this.status = status
+    this.createdAt = createdAt
+    this.updatedAt = updatedAt
   }
 }
 

@@ -1,6 +1,6 @@
 import TestServer from '../..'
 import request from 'supertest'
-import { user } from '../../mocks/user'
+import { login, user } from '../../mocks/user'
 
 describe('Testing /products endpoint', () => {
   let db, requester, token
@@ -12,10 +12,7 @@ describe('Testing /products endpoint', () => {
     await requester.post('/sessions/signup').send(user)
     const {
       body: { payload }
-    } = await requester.post('/sessions/login').send({
-      email: 'test@test.com',
-      password: 'test123456'
-    })
+    } = await requester.post('/sessions/login').send(login)
     token = payload
   })
 

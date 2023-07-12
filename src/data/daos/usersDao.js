@@ -20,6 +20,10 @@ class UsersDao {
   deleteOne(id) {
     return UserModel.findByIdAndUpdate({ _id: id }, { enabled: false }, { new: true })
   }
+
+  updatePassword(id, newPassword) {
+    return UserModel.findByIdAndUpdate({ _id: id }, newPassword)
+  }
 }
 
 export default UsersDao
