@@ -16,7 +16,7 @@ describe('Testing /products endpoint', () => {
     token = payload
   })
 
-  it('should return Products[] and status 200', async () => {
+  it('GET /products should return Products[] and status 200', async () => {
     const response = await requester.get('/products').set('Authorization', `Bearer ${token}`)
     expect(response.status).toBe(200)
     expect(Array.isArray(response.body.payload)).toBe(true)

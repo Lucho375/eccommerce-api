@@ -1,18 +1,20 @@
 import request from 'supertest'
 import TestServer from '../../index.js'
-import { verifyAccessToken } from '../../../helpers/JWT.js'
+import TokenService from '../../../services/tokenService.js'
 import { login, user } from '../../mocks/user.js'
 
 describe('Testing session controller', () => {
   let db
   let token
   let requester
+  let tokenService
 
   beforeAll(async () => {
     const { db: dbInstance, app } = await TestServer()
     db = dbInstance
     await db.init(process.env.MONGO_DB_URI_TEST)
     requester = request(app.getApp())
+    tokenService = new TokenService()
   })
 
   afterAll(async () => {
@@ -35,7 +37,7 @@ describe('Testing session controller', () => {
   describe('User Login (/sessions/login)', () => {
     it('should return a valid JWT token', async () => {
       const response = await requester.post('/sessions/login').send(login).expect('Content-Type', /json/).expect(200)
-      const verifiyToken = verifyAccessToken(response.body.payload)
+      const verifiyToken = tokenService.verifyAccessToken(response.body.payload)
       expect(verifiyToken.email).toEqual(login.email)
       token = response.body.payload
     })

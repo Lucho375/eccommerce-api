@@ -11,32 +11,32 @@ class TokenService {
   generateAccessToken(user) {
     const { id, firstname, lastname, email, age, image, role } = user
     const payload = { id, firstname, lastname, email, age, image, role }
-    const accessToken = jwt.sign(payload, config.JWT.ACCESS, { expiresIn: '15m' })
+    const accessToken = jwt.sign(payload, config.JWT.ACCESS.SECRET, { expiresIn: config.JWT.ACCESS.EXPIRES })
     return accessToken
   }
 
   generateRefreshToken(user) {
     const { id, firstname, lastname, email, age, image, role } = user
     const payload = { id, firstname, lastname, email, age, image, role }
-    const refreshToken = jwt.sign(payload, config.JWT.REFRESH)
+    const refreshToken = jwt.sign(payload, config.JWT.REFRESH.SECRET, { expiresIn: config.JWT.REFRESH.EXPIRES })
     return refreshToken
   }
 
   generateChangePasswordToken(payload) {
-    return jwt.sign(payload, config.JWT.RESET_PASSWORD, { expiresIn: '15m' })
+    return jwt.sign(payload, config.JWT.RESET_PASSWORD, { expiresIn: config.JWT.RESET_PASSWORD.EXPIRES })
   }
 
   verifyRefreshToken(refreshToken) {
-    const decoded = jwt.verify(refreshToken, config.JWT.REFRESH)
+    const decoded = jwt.verify(refreshToken, config.JWT.REFRESH.SECRET)
     return decoded
   }
 
   verifyAccessToken(accessToken) {
-    return jwt.verify(accessToken, config.JWT.ACCESS)
+    return jwt.verify(accessToken, config.JWT.ACCESS.SECRET)
   }
 
   verifyPasswordToken(passwordToken) {
-    return jwt.verify(passwordToken, config.JWT.RESET_PASSWORD)
+    return jwt.verify(passwordToken, config.JWT.RESET_PASSWORD.SECRET)
   }
 }
 

@@ -22,8 +22,17 @@ export default {
     }
   },
   JWT: {
-    ACCESS: process.env.ACCESS_TOKEN_SECRET,
-    REFRESH: process.env.REFRESH_TOKEN_SECRET,
-    RESET_PASSWORD: process.env.RESET_PASSWORD_TOKEN_SECRET
+    ACCESS: {
+      SECRET: process.env.ACCESS_TOKEN_SECRET,
+      EXPIRES: '7d'
+    },
+    REFRESH: {
+      SECRET: process.env.REFRESH_TOKEN_SECRET,
+      EXPIRES: '24h'
+    },
+    RESET_PASSWORD: {
+      SECRET: process.env.RESET_PASSWORD_TOKEN_SECRET,
+      EXPIRES: '10m'
+    }
   }
 }

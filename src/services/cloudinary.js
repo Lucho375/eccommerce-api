@@ -11,3 +11,13 @@ export async function uploadImage(image, folder, imageName) {
   }
   return cloudinary.uploader.upload(image, options)
 }
+
+// class CloudinaryService{
+//   constructor(){
+//     cloudinary.config(config.cloudinaryConfig)
+//   }
+
+//   async uploadImage(){
+
+//   }
+// }

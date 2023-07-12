@@ -15,40 +15,36 @@ export class TicketManager {
       products
     })
 
-    return new Ticket({
-      id: ticket._id,
-      code: ticket.code,
-      purchaser: ticket.purchaser,
-      purchase_datetime: ticket.purchase_datetime,
-      amount: ticket.amount,
-      products: ticket.products
-    })
+    return this.#transformTickets(ticket)
   }
 
   async getOne(tid) {
     const ticket = await this.ticketsDao.getOne(tid)
-    return new Ticket({
-      id: ticket._id,
-      code: ticket.code,
-      purchaser: ticket.purchaser,
-      purchase_datetime: ticket.purchase_datetime,
-      amount: ticket.amount,
-      products: ticket.products
-    })
+    return this.#transformTickets(ticket)
   }
 
   async getAll(purchaser) {
     const tickets = await this.ticketsDao.getAll(purchaser)
-    const transformedTickets = tickets.map(({ _id, code, purchase_datetime, amount, products, purchaser }) => {
-      return new Ticket({
-        id: _id,
-        code,
-        purchaser,
-        purchase_datetime,
-        amount,
-        products
-      })
+    return this.#transformTickets(tickets)
+  }
+
+  #transformTickets(data) {
+    if (Array.isArray(data))
+      return data.map(
+        ticket =>
+          new Ticket({
+            id: ticket._id.toString(),
+            ...ticket.toObject()
+          })
+      )
+
+    return new Ticket({
+      id: data._id.toString(),
+      code: data.code,
+      purchaser: data.purchaser,
+      purchase_datetime: data.purchase_datetime,
+      amount: data.amount,
+      products: data.products
     })
-    return transformedTickets
   }
 }

@@ -1,13 +1,14 @@
 import { USER_ROLES } from '../../../constants/roles.js'
 import UserManager from '../../../domain/managers/userManager.js'
-import { verifyAccessToken } from '../../../helpers/JWT.js'
+import TokenService from '../../../services/tokenService.js'
 
 export function isAuthenticated(req, res, next) {
   const authHeader = req.headers.authorization || req.headers.Authorization
   if (!authHeader) return res.sendStatus(401) // Unauthorized
   const token = authHeader.split(' ')[1]
   try {
-    const user = verifyAccessToken(token)
+    const tokenService = new TokenService()
+    const user = tokenService.verifyAccessToken(token)
     req.user = user
     next()
   } catch (error) {
