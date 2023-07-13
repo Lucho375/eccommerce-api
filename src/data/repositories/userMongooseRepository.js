@@ -1,6 +1,6 @@
 import UserModel from '../models/user.model.js'
 
-class UsersDao {
+class UserMongooseRepository {
   create(user) {
     return UserModel.create(user)
   }
@@ -26,4 +26,4 @@ class UsersDao {
   }
 }
 
-export default UsersDao
+export default UserMongooseRepository

@@ -1,6 +1,6 @@
 import CartModel from '../models/cart.model.js'
 
-class CartsDao {
+class CartMongooseRepository {
   async addProduct(cid, pid) {
     const cart = await CartModel.findOne({ _id: cid, 'products._id': pid })
     if (cart) {
@@ -59,4 +59,4 @@ class CartsDao {
   }
 }
 
-export default CartsDao
+export default CartMongooseRepository

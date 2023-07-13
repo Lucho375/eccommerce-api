@@ -1,34 +1,34 @@
-import { ProductsDao } from '../../data/daos/productsDao.js'
+import containers from '../../containers.js'
 import Product from '../entities/product.js'
 
 export class ProductManager {
-  #productDao
+  #productRepository
   constructor() {
-    this.#productDao = new ProductsDao()
+    this.#productRepository = containers.resolve('productDao')
   }
 
   async findAll(limit, category, sort) {
-    const products = await this.#productDao.getAllProducts(limit, category, sort)
+    const products = await this.#productRepository.getAllProducts(limit, category, sort)
     return this.transformProducts(products)
   }
 
   async findById(id) {
-    const product = await this.#productDao.getProductById(id)
+    const product = await this.#productRepository.getProductById(id)
     return this.transformProducts(product)
   }
 
   async createProduct(product) {
-    const productCreated = await this.#productDao.createProduct(product)
+    const productCreated = await this.#productRepository.createProduct(product)
     return this.transformProducts(productCreated)
   }
 
   async update(id, update) {
-    const product = await this.#productDao.updateProduct(id, update)
+    const product = await this.#productRepository.updateProduct(id, update)
     return this.transformProducts(product)
   }
 
   async delete(id) {
-    return this.#productDao.deleteProduct(id)
+    return this.#productRepository.deleteProduct(id)
   }
 
   transformProducts(data) {

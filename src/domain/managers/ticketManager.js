@@ -1,13 +1,13 @@
-import TicketDao from '../../data/daos/ticketsDao.js'
 import { v4 as uuidv4 } from 'uuid'
-import Ticket from '../entities/ticket.js'
+import containers from '../../containers.js'
 export class TicketManager {
+  #ticketRepository
   constructor() {
-    this.ticketsDao = new TicketDao()
+    this.#ticketRepository = containers.resolve('ticketDao')
   }
 
   async create({ amount, purchaser, products }) {
-    const ticket = await this.ticketsDao.create({
+    const ticket = await this.#ticketRepository.create({
       code: uuidv4(),
       purchase_datetime: Date.now(),
       amount,
@@ -15,36 +15,16 @@ export class TicketManager {
       products
     })
 
-    return this.#transformTickets(ticket)
+    return ticket
   }
 
   async getOne(tid) {
-    const ticket = await this.ticketsDao.getOne(tid)
-    return this.#transformTickets(ticket)
+    const ticket = await this.#ticketRepository.getOne(tid)
+    return ticket
   }
 
   async getAll(purchaser) {
-    const tickets = await this.ticketsDao.getAll(purchaser)
-    return this.#transformTickets(tickets)
-  }
-
-  #transformTickets(data) {
-    if (Array.isArray(data))
-      return data.map(
-        ticket =>
-          new Ticket({
-            id: ticket._id.toString(),
-            ...ticket.toObject()
-          })
-      )
-
-    return new Ticket({
-      id: data._id.toString(),
-      code: data.code,
-      purchaser: data.purchaser,
-      purchase_datetime: data.purchase_datetime,
-      amount: data.amount,
-      products: data.products
-    })
+    const tickets = await this.#ticketRepository.getAll(purchaser)
+    return tickets
   }
 }

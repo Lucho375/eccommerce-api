@@ -34,7 +34,7 @@ describe('TicketManager', () => {
   })
 
   describe('TicketManager.getOne(tid)', () => {
-    it('should return a ticket', async () => {
+    it('should return a Ticket{} for a specific ticketId', async () => {
       const ticketManager = new TicketManager()
       const ticket = await ticketManager.getOne(ticketId)
       expect(ticket.amount).toBe(1500)

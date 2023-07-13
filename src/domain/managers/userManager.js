@@ -1,25 +1,25 @@
-import UsersDao from '../../data/daos/usersDao.js'
+import containers from '../../containers.js'
 import PasswordService from '../../services/passwordService.js'
 import User from '../entities/user.js'
 import { ValidationError } from '../validations/ValidationError.js'
 
 class UserManager {
-  #userDao
+  #userRepository
   #passwordService
   constructor() {
-    this.#userDao = new UsersDao()
+    this.#userRepository = containers.resolve('userDao')
     this.#passwordService = PasswordService
   }
 
   async getAll() {
-    const users = await this.#userDao.getAll()
+    const users = await this.#userRepository.getAll()
     return this.#transformUsers(users)
   }
 
   async create(user) {
-    const userExists = await this.#userDao.getOne({ email: user.email })
+    const userExists = await this.#userRepository.getOne({ email: user.email })
     if (userExists) throw new ValidationError('El email ya esta registrado')
-    const createdUser = await this.#userDao.create({
+    const createdUser = await this.#userRepository.create({
       ...user,
       password: await this.#passwordService.hash(user.password)
     })
@@ -27,22 +27,22 @@ class UserManager {
   }
 
   async getOne(value) {
-    const user = await this.#userDao.getOne(value)
+    const user = await this.#userRepository.getOne(value)
     if (!user) return null
     return this.#transformUsers(user)
   }
 
   async updateOne(id, update) {
-    const updatedUser = await this.#userDao.updateOne(id, update)
+    const updatedUser = await this.#userRepository.updateOne(id, update)
     return this.#transformUsers(updatedUser)
   }
 
   async updatePassword(id, updatedPassword) {
-    return this.#userDao.updatePassword(id, updatedPassword)
+    return this.#userRepository.updatePassword(id, updatedPassword)
   }
 
   deleteOne(id) {
-    return this.#userDao.deleteOne(id)
+    return this.#userRepository.deleteOne(id)
   }
 
   #transformUsers(data) {

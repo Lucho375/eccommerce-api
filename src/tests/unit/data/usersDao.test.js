@@ -1,8 +1,8 @@
-import UsersDao from '../../../data/daos/usersDao'
+import UserMongooseRepository from '../../../data/repositories/userMongooseRepository'
 import TestServer from '../..'
 import { user } from '../../mocks/user'
 
-const userDao = new UsersDao()
+const userDao = new UserMongooseRepository()
 
 describe('UsersDao', () => {
   let db, userId

@@ -1,6 +1,6 @@
 import ProductModel from '../models/product.model.js'
 
-export class ProductsDao {
+class ProductMongooseRepository {
   async getAllProducts(limit, category, sort) {
     const query = category ? { category } : {}
     const limitQuery = limit ? { limit } : {}
@@ -27,3 +27,5 @@ export class ProductsDao {
     return ProductModel.findByIdAndUpdate(id, { status: false }, { new: true })
   }
 }
+
+export default ProductMongooseRepository

@@ -1,4 +1,4 @@
-import CartsDao from '../../data/daos/cartsDao.js'
+import containers from '../../containers.js'
 import Cart from '../entities/cart.js'
 import { NotFoundError, ValidationError } from '../validations/ValidationError.js'
 import { ProductManager } from './productManager.js'
@@ -6,17 +6,17 @@ import { TicketManager } from './ticketManager.js'
 
 export class CartManager {
   constructor() {
-    this.cartDao = new CartsDao()
+    this.cartRepository = containers.resolve('cartDao')
     this.productManager = new ProductManager()
     this.ticketManager = new TicketManager()
   }
 
   addProduct(cid, pid) {
-    return this.cartDao.addProduct(cid, pid)
+    return this.cartRepository.addProduct(cid, pid)
   }
 
   async create(cart) {
-    const cartInDb = await this.cartDao.create(cart)
+    const cartInDb = await this.cartRepository.create(cart)
 
     return new Cart({
       id: cartInDb._id,
@@ -26,7 +26,7 @@ export class CartManager {
   }
 
   async get(user) {
-    const cart = await this.cartDao.get(user)
+    const cart = await this.cartRepository.get(user)
     if (!cart) throw new NotFoundError('Cart doesnt exists')
 
     return new Cart({
@@ -37,19 +37,19 @@ export class CartManager {
   }
 
   deleteProduct(cid, pid) {
-    return this.cartDao.deleteProduct(cid, pid)
+    return this.cartRepository.deleteProduct(cid, pid)
   }
 
   updateProductQuantity(cid, pid, quantity) {
-    return this.cartDao.updateProductQuantity(cid, pid, quantity)
+    return this.cartRepository.updateProductQuantity(cid, pid, quantity)
   }
 
   deleteAllProducts(cid) {
-    return this.cartDao.deleteAllProducts(cid)
+    return this.cartRepository.deleteAllProducts(cid)
   }
 
   async checkout(cid) {
-    const checkoutCart = await this.cartDao.checkout(cid)
+    const checkoutCart = await this.cartRepository.checkout(cid)
     let totalAmount = 0
 
     for (const product of checkoutCart.products) {
@@ -78,7 +78,7 @@ export class CartManager {
       products: checkoutCart.products
     })
 
-    await this.cartDao.deleteAllProducts(cid)
+    await this.cartRepository.deleteAllProducts(cid)
 
     return ticket
   }

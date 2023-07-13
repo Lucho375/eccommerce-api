@@ -1,6 +1,6 @@
 import TestServer from '../..'
-import TicketDao from '../../../data/daos/ticketsDao'
-import { ticketMock } from '../../mocks/ticket'
+import TicketMongooseRepository from '../../../data/repositories/ticketMongooseRepository.js'
+import { ticketMock } from '../../mocks/ticket.js'
 
 const ticketData = {
   amount: 1200,
@@ -13,7 +13,7 @@ const ticketData = {
 describe('TicketsDao', () => {
   let db
   let ticketId
-  const ticketDao = new TicketDao()
+  const ticketDao = new TicketMongooseRepository()
 
   beforeAll(async () => {
     const { db: dbInstance } = await TestServer()
@@ -29,8 +29,8 @@ describe('TicketsDao', () => {
   describe('TicketDao.create()', () => {
     it('should return a new ticket', async () => {
       const newTicket = await ticketDao.create(ticketMock(ticketData))
-      expect(newTicket.products[0]._id.toString()).toMatch(ticketData.productId)
-      ticketId = newTicket._id
+      expect(newTicket.products[0]._id.toString()).toBe(ticketData.productId)
+      ticketId = newTicket.id
     })
   })
 
