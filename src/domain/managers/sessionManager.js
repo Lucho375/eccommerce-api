@@ -7,23 +7,23 @@ class SessionManager {
     this.authManager = new AuthManager()
   }
 
-  async signup(user) {
+  signup(user) {
     return this.userManager.create(user)
   }
 
-  async login(email, password) {
+  login(email, password) {
     return this.authManager.login(email, password)
   }
 
-  async refreshToken(refreshToken) {
+  refreshToken(refreshToken) {
     return this.authManager.refreshToken(refreshToken)
   }
 
-  async forgotPassword(email) {
+  forgotPassword(email) {
     return this.authManager.forgotPassword(email)
   }
 
-  async resetPassword(token, newPassword) {
+  resetPassword(token, newPassword) {
     return this.authManager.resetPassword(token, newPassword)
   }
 

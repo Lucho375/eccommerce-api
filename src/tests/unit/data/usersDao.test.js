@@ -13,15 +13,10 @@ describe('UsersDao', () => {
     await db.init(process.env.MONGO_DB_URI_TEST)
   })
 
-  afterAll(async () => {
-    await db.dropDatabase()
-    await db.close()
-  })
-
   describe('UsersDao.create()', () => {
     it('should return an user created', async () => {
       const newUser = await userDao.create(user)
-      userId = newUser._id.toString()
+      userId = newUser.id
       expect(newUser).toBeTruthy()
     })
   })
@@ -58,5 +53,10 @@ describe('UsersDao', () => {
       const disabledUser = await userDao.deleteOne(userId)
       expect(disabledUser.enabled).toBe(false)
     })
+  })
+
+  afterAll(async () => {
+    await db.dropDatabase()
+    await db.close()
   })
 })

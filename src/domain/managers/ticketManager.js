@@ -1,30 +1,27 @@
 import { v4 as uuidv4 } from 'uuid'
 import containers from '../../containers.js'
+import { dependencies } from '../../constants/dependencies.js'
 export class TicketManager {
   #ticketRepository
   constructor() {
-    this.#ticketRepository = containers.resolve('ticketDao')
+    this.#ticketRepository = containers.resolve(dependencies.ticketDao)
   }
 
-  async create({ amount, purchaser, products }) {
-    const ticket = await this.#ticketRepository.create({
+  create({ amount, purchaser, products }) {
+    return this.#ticketRepository.create({
       code: uuidv4(),
       purchase_datetime: Date.now(),
       amount,
       purchaser,
       products
     })
-
-    return ticket
   }
 
-  async getOne(tid) {
-    const ticket = await this.#ticketRepository.getOne(tid)
-    return ticket
+  getOne(tid) {
+    return this.#ticketRepository.getOne(tid)
   }
 
-  async getAll(purchaser) {
-    const tickets = await this.#ticketRepository.getAll(purchaser)
-    return tickets
+  getAll(purchaser) {
+    return this.#ticketRepository.getAll(purchaser)
   }
 }

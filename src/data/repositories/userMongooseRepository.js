@@ -1,28 +1,54 @@
+import User from '../../domain/entities/user.js'
 import UserModel from '../models/user.model.js'
 
 class UserMongooseRepository {
-  create(user) {
-    return UserModel.create(user)
+  async create(user) {
+    const created = await UserModel.create(user)
+    return this.#transformUsers(created)
   }
 
-  getAll() {
-    return UserModel.find()
+  async getAll() {
+    const users = await UserModel.find()
+    return this.#transformUsers(users)
   }
 
-  getOne(value) {
-    return UserModel.findOne(value)
+  async getOne(value) {
+    const user = await UserModel.findOne(value)
+    return this.#transformUsers(user)
   }
 
-  updateOne(id, update) {
-    return UserModel.findByIdAndUpdate({ _id: id }, update, { new: true })
+  async updateOne(id, update) {
+    const updated = await UserModel.findByIdAndUpdate({ _id: id }, update, { new: true })
+    return this.#transformUsers(updated)
   }
 
-  deleteOne(id) {
-    return UserModel.findByIdAndUpdate({ _id: id }, { enabled: false }, { new: true })
+  async deleteOne(id) {
+    const deleted = await UserModel.findByIdAndUpdate({ _id: id }, { enabled: false }, { new: true })
+    return this.#transformUsers(deleted)
   }
 
-  updatePassword(id, newPassword) {
+  async updatePassword(id, newPassword) {
     return UserModel.findByIdAndUpdate({ _id: id }, newPassword)
+  }
+
+  #transformUsers(data) {
+    if (!data) return null
+    if (Array.isArray(data)) {
+      return data.map(user => new User({ id: user._id.toString(), ...user.toObject() }))
+    }
+    return new User({
+      id: data._id.toString(),
+      age: data.age,
+      email: data.email,
+      firstname: data.firstname,
+      lastname: data.lastname,
+      image: data.image,
+      password: data.password,
+      role: data.role,
+      enabled: data.enabled,
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt
+    })
   }
 }
 

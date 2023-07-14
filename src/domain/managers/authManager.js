@@ -23,8 +23,7 @@ class AuthManager {
 
   refreshToken(refreshToken) {
     const decoded = this.tokenService.verifyRefreshToken(refreshToken)
-    const token = this.tokenService.generateAccessToken(decoded)
-    return token
+    return this.tokenService.generateAccessToken(decoded)
   }
 
   async forgotPassword(email) {

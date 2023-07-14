@@ -1,3 +1,4 @@
+import { dependencies } from '../../constants/dependencies.js'
 import containers from '../../containers.js'
 import Cart from '../entities/cart.js'
 import { NotFoundError, ValidationError } from '../validations/ValidationError.js'
@@ -6,7 +7,7 @@ import { TicketManager } from './ticketManager.js'
 
 export class CartManager {
   constructor() {
-    this.cartRepository = containers.resolve('cartDao')
+    this.cartRepository = containers.resolve(dependencies.cartDao)
     this.productManager = new ProductManager()
     this.ticketManager = new TicketManager()
   }

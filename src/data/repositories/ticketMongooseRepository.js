@@ -18,6 +18,7 @@ class TicketMongooseRepository {
   }
 
   #transformTickets(data) {
+    if (!data) return null
     if (Array.isArray(data))
       return data.map(
         ticket =>
