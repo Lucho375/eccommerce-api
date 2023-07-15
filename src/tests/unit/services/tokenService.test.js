@@ -1,24 +1,24 @@
-import * as jwtUtils from '../../../helpers/JWT'
+import TokenService from '../../../services/tokenService'
 import { user } from '../../mocks/user'
 
 describe('JWT utils', () => {
   let tokenCreated, refreshToken, forgotPasswordToken
-
+  let tokenService = new TokenService()
   describe('JWTs creations', () => {
     it('should return accessToken', () => {
-      const token = jwtUtils.createAccessToken(user, '5s')
+      const token = tokenService.generateAccessToken(user)
       tokenCreated = token
       expect(token).not.toBe(null)
     })
 
     it('should return refreshToken', () => {
-      const token = jwtUtils.createRefreshToken(user, '5s')
+      const token = tokenService.generateRefreshToken(user)
       refreshToken = token
       expect(token).not.toBe(null)
     })
 
     it('should return forgotPasswordToken', () => {
-      const token = jwtUtils.createForgotPasswordToken(user, '5s')
+      const token = tokenService.generateChangePasswordToken(user)
       forgotPasswordToken = token
       expect(token).not.toBe(null)
     })
@@ -26,7 +26,7 @@ describe('JWT utils', () => {
 
   describe('Verifying JWTs', () => {
     it('verify accessToken', () => {
-      const token = jwtUtils.verifyAccessToken(tokenCreated)
+      const token = tokenService.verifyAccessToken(tokenCreated)
       expect(token).not.toBe(null)
       expect(token.firstname).toBe(user.firstname)
       expect(token.email).toBe(user.email)
@@ -35,8 +35,7 @@ describe('JWT utils', () => {
     })
 
     it('verify refreshToken', () => {
-      const token = jwtUtils.verifyRefreshToken(refreshToken)
-      expect(token).not.toBe(null)
+      const token = tokenService.verifyRefreshToken(refreshToken)
       expect(token).not.toBe(null)
       expect(token.firstname).toBe(user.firstname)
       expect(token.email).toBe(user.email)
@@ -50,7 +49,7 @@ describe('JWT utils', () => {
       await new Promise(resolve => setTimeout(resolve, 5000))
       let err
       try {
-        jwtUtils.verifyAccessToken(tokenCreated)
+        tokenService.verifyAccessToken(tokenCreated)
       } catch (error) {
         err = error
       }
@@ -61,7 +60,7 @@ describe('JWT utils', () => {
       await new Promise(resolve => setTimeout(resolve, 5000))
       let err
       try {
-        jwtUtils.verifyRefreshToken(refreshToken)
+        tokenService.verifyRefreshToken(refreshToken)
       } catch (error) {
         err = error
       }

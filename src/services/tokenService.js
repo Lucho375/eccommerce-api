@@ -27,8 +27,7 @@ class TokenService {
   }
 
   verifyRefreshToken(refreshToken) {
-    const decoded = jwt.verify(refreshToken, config.JWT.REFRESH.SECRET)
-    return decoded
+    return jwt.verify(refreshToken, config.JWT.REFRESH.SECRET)
   }
 
   verifyAccessToken(accessToken) {

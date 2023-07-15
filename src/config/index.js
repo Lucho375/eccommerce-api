@@ -24,11 +24,11 @@ export default {
   JWT: {
     ACCESS: {
       SECRET: process.env.ACCESS_TOKEN_SECRET,
-      EXPIRES: '7d'
+      EXPIRES: '24h'
     },
     REFRESH: {
       SECRET: process.env.REFRESH_TOKEN_SECRET,
-      EXPIRES: '24h'
+      EXPIRES: '7d'
     },
     RESET_PASSWORD: {
       SECRET: process.env.RESET_PASSWORD_TOKEN_SECRET,
