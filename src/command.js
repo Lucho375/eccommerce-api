@@ -7,10 +7,11 @@ import DbFactory from './data/factories/dbFactory.js'
   try {
     const db = DbFactory.create()
     await db.init(config.MONGO_DB_URI)
-
     program.addCommand(AddUserCommand)
     await program.parseAsync(process.argv)
   } catch (error) {
     console.log(error)
+  } finally {
+    process.exit()
   }
 })()
