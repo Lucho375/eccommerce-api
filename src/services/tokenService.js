@@ -23,7 +23,7 @@ class TokenService {
   }
 
   generateChangePasswordToken(payload) {
-    return jwt.sign(payload, config.JWT.RESET_PASSWORD, { expiresIn: config.JWT.RESET_PASSWORD.EXPIRES })
+    return jwt.sign(payload, config.JWT.RESET_PASSWORD.SECRET, { expiresIn: config.JWT.RESET_PASSWORD.EXPIRES })
   }
 
   verifyRefreshToken(refreshToken) {

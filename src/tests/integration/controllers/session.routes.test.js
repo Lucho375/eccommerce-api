@@ -35,7 +35,7 @@ describe('Testing session controller', () => {
   })
 
   describe('User Login (/sessions/login)', () => {
-    it('should return a valid JWT token', async () => {
+    it('should return a valid token', async () => {
       const response = await requester.post('/sessions/login').send(login).expect('Content-Type', /json/).expect(200)
       const verifiyToken = tokenService.verifyAccessToken(response.body.payload)
       expect(verifiyToken.email).toEqual(login.email)
