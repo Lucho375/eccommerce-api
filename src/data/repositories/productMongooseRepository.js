@@ -11,7 +11,8 @@ class ProductMongooseRepository {
   }
 
   async createProduct(newProduct) {
-    return ProductModel.create(newProduct)
+    const product = await ProductModel.create(newProduct)
+    return this.#transformProducts(product)
   }
 
   async getProductById(id) {
