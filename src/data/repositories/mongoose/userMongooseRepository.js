@@ -1,5 +1,5 @@
-import User from '../../domain/entities/user.js'
-import UserModel from '../models/user.model.js'
+import User from '../../../domain/entities/user.js'
+import UserModel from '../../models/mongoose/user.model.js'
 
 class UserMongooseRepository {
   async create(user) {

@@ -1,5 +1,5 @@
-import Product from '../../domain/entities/product.js'
-import ProductModel from '../models/product.model.js'
+import Product from '../../../domain/entities/product.js'
+import ProductModel from '../../models/mongoose/product.model.js'
 
 class ProductMongooseRepository {
   async getAllProducts(limit, category, sort) {
@@ -17,7 +17,6 @@ class ProductMongooseRepository {
 
   async getProductById(id) {
     const product = await ProductModel.findById(id)
-    if (!product) return null
     return this.#transformProducts(product)
   }
 
@@ -27,7 +26,8 @@ class ProductMongooseRepository {
   }
 
   async deleteProduct(id) {
-    return ProductModel.findByIdAndUpdate(id, { status: false }, { new: true })
+    const deleted = await ProductModel.findByIdAndUpdate(id, { status: false }, { new: true })
+    return this.#transformProducts(deleted)
   }
 
   #transformProducts(data) {

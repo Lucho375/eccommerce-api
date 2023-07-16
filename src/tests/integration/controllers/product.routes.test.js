@@ -8,7 +8,7 @@ describe('Testing /products endpoint', () => {
   beforeAll(async function () {
     const { db: dbInstance, app } = await TestServer()
     db = dbInstance
-    await db.init(process.env.MONGO_DB_URI_TEST)
+    await db.init(process.env.DB_URI_TEST)
     requester = request(app.getApp())
     await requester.post('/sessions/signup').send(adminUser).expect(201).expect('Content-Type', /json/)
     const response = await requester.post('/sessions/login').send(adminLogin)
@@ -30,14 +30,9 @@ describe('Testing /products endpoint', () => {
       .expect(201)
       .expect('Content-Type', /json/)
     const createdProduct = response.body.payload
-    expect(createdProduct.title).toBe(productMock.title)
-    expect(createdProduct.category).toBe(productMock.category)
-    expect(createdProduct.description).toBe(productMock.description)
-    expect(createdProduct.code).toBe(productMock.code)
-    expect(createdProduct.thumbnail).toEqual(productMock.thumbnail)
-    expect(createdProduct.price).toBe(productMock.price)
-    expect(createdProduct.stock).toBe(productMock.stock)
-    expect(createdProduct.status).toBe(true)
+    for (const prop in productMock) {
+      expect(createdProduct[prop]).toEqual(productMock[prop])
+    }
     productId = createdProduct.id
     product = createdProduct
   })

@@ -7,7 +7,7 @@ let db, token, requester, userId
 beforeAll(async () => {
   const { db: dbInstance, app } = await TestServer()
   db = dbInstance
-  await db.init(process.env.MONGO_DB_URI_TEST)
+  await db.init(process.env.DB_URI_TEST)
   requester = request(app.getApp())
   await requester.post('/sessions/signup').send(adminUser).expect(201).expect('Content-Type', /json/)
   const response = await requester.post('/sessions/login').send(adminLogin)

@@ -12,7 +12,7 @@ describe('Testing session controller', () => {
   beforeAll(async () => {
     const { db: dbInstance, app } = await TestServer()
     db = dbInstance
-    await db.init(process.env.MONGO_DB_URI_TEST)
+    await db.init(process.env.DB_URI_TEST)
     requester = request(app.getApp())
     tokenService = new TokenService()
   })

@@ -8,7 +8,7 @@ describe('TicketManager', () => {
   beforeAll(async () => {
     const { db: dbInstance } = await TestServer()
     db = dbInstance
-    await db.init(process.env.MONGO_DB_URI_TEST)
+    await db.init(process.env.DB_URI_TEST)
   })
 
   afterAll(async () => {

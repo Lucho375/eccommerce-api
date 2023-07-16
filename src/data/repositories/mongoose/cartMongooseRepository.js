@@ -1,4 +1,4 @@
-import CartModel from '../models/cart.model.js'
+import CartModel from '../../models/mongoose/cart.model.js'
 
 class CartMongooseRepository {
   async addProduct(cid, pid) {

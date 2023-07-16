@@ -1,4 +1,4 @@
-import UserMongooseRepository from '../../../data/repositories/userMongooseRepository'
+import UserMongooseRepository from '../../../data/repositories/mongoose/userMongooseRepository'
 import TestServer from '../..'
 import { user } from '../../mocks/user'
 
@@ -10,7 +10,7 @@ describe('UsersDao', () => {
   beforeAll(async () => {
     const { db: dbInstance } = await TestServer()
     db = dbInstance
-    await db.init(process.env.MONGO_DB_URI_TEST)
+    await db.init(process.env.DB_URI_TEST)
   })
 
   describe('UsersDao.create()', () => {

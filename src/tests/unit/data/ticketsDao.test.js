@@ -1,5 +1,5 @@
 import TestServer from '../..'
-import TicketMongooseRepository from '../../../data/repositories/ticketMongooseRepository.js'
+import TicketMongooseRepository from '../../../data/repositories/mongoose/ticketMongooseRepository.js'
 import { ticketMock } from '../../mocks/ticket.js'
 
 const ticketData = {
@@ -18,7 +18,7 @@ describe('TicketsDao', () => {
   beforeAll(async () => {
     const { db: dbInstance } = await TestServer()
     db = dbInstance
-    await db.init(process.env.MONGO_DB_URI_TEST)
+    await db.init(process.env.DB_URI_TEST)
   })
 
   afterAll(async () => {

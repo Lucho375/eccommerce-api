@@ -7,9 +7,12 @@ const config = {
   },
   testRegex: '\\.test\\.js?$',
   detectOpenHandles: true
+
   // collectCoverage: true,
   // collectCoverageFrom: ['src/**/*.js', '!src/**/*.test.js'],
   // coverageReporters: ['lcov', 'text']
 }
+
+global.__dirname = __dirname
 
 module.exports = config

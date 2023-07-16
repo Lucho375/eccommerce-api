@@ -1,5 +1,5 @@
-import { TicketModel } from '../models/ticket.model.js'
-import Ticket from '../../domain/entities/ticket.js'
+import { TicketModel } from '../../models/mongoose/ticket.model.js'
+import Ticket from '../../../domain/entities/ticket.js'
 
 class TicketMongooseRepository {
   async create(ticket) {
