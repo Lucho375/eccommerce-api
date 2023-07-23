@@ -1,5 +1,6 @@
+import EmailService from '../../services/emails/emailService.js'
+import { nodemailerTransporter } from '../../services/emails/transporters/nodemailer/index.js'
 import PasswordService from '../../services/passwordService.js'
-import { emailOptions, sendMail } from '../../services/sendEmail.js'
 import TokenService from '../../services/tokenService.js'
 import UserManager from './userManager.js'
 
@@ -7,6 +8,7 @@ class AuthManager {
   constructor() {
     this.userManager = new UserManager()
     this.tokenService = new TokenService()
+    this.emailService = new EmailService(nodemailerTransporter)
     this.passwordService = PasswordService
   }
 
@@ -15,7 +17,7 @@ class AuthManager {
     if (!user) return null // Wrong email
     const isValidPass = await this.passwordService.compare(password, user.password)
     if (!isValidPass) {
-      await sendMail({ email }, emailOptions.wrongPassword)
+      await this.emailService.sendUnauthorizedLoginAlert({ email, firstname: user.firstname })
       return false // Wrong password
     }
     return this.tokenService.generateTokens(user)
@@ -31,7 +33,7 @@ class AuthManager {
     if (!user) return null
     const { id } = user
     const token = this.tokenService.generateChangePasswordToken({ id })
-    await sendMail({ email: user.email, token }, emailOptions.changePassword)
+    await this.emailService.sendPasswordReset({ email, firstname: user.firstname, token })
   }
 
   async resetPassword(token, newPassword) {

@@ -4,7 +4,7 @@ import path from 'path'
 
 class ProductFileSystemRepository {
   constructor() {
-    this.filePath = path.resolve('./products.json')
+    this.filePath = path.resolve('./src/database/products/products.json')
   }
 
   async getAllProducts() {

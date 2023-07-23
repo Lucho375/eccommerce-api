@@ -52,7 +52,7 @@ class SessionController {
       if (!cookies?.refreshToken) return res.status(401).send({ ok: false, message: 'Unauthorized' }) // Unauthorized
       const manager = new SessionManager()
       const refreshToken = cookies.refreshToken
-      const accessToken = await manager.refreshToken(refreshToken)
+      const accessToken = manager.refreshToken(refreshToken)
       if (!accessToken) return res.status(403).send({ ok: false, message: 'Forbidden' })
       res.status(200).send({ ok: true, payload: accessToken })
     } catch (error) {
@@ -78,8 +78,8 @@ class SessionController {
       const { password } = req.body
       const manager = new SessionManager()
       const passwordHasUpdated = await manager.resetPassword(token, password)
-      if (passwordHasUpdated) return res.sendStatus(204)
-      res.status(400).send({ ok: false, message: 'Something was wrong' })
+      if (!passwordHasUpdated) return res.status(400).send({ ok: false, message: 'Something was wrong' })
+      res.status(200).send({ ok: true, message: 'Password updated' })
     } catch (error) {
       next(error)
     }
