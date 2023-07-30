@@ -1,0 +1,59 @@
+components:
+  schemas:
+    User:
+      type: 'object'
+      properties:
+        id:
+          type: 'string'
+        firstname:
+          type: 'string'
+        lastname:
+          type: 'string'
+        email:
+          type: 'string'
+        role:
+          type: 'string'
+          enum: ['user', 'admin']
+        enabled:
+          type: 'boolean'
+        image:
+          type: 'string'
+      required:
+        - firstname
+        - lastname
+        - email
+
+    NewUser:
+      type: 'object'
+      properties:
+        firstname:
+          type: 'string'
+        lastname:
+          type: 'string'
+        email:
+          type: 'string'
+        password:
+          type: 'string'
+        age:
+          type: 'number'
+      required:
+        - firstname
+        - lastname
+        - email
+        - password
+
+    UpdatedUser:
+      type: 'object'
+      properties:
+        firstname:
+          type: 'string'
+        lastname:
+          type: 'string'
+        email:
+          type: 'string'
+        password:
+          type: 'string'
+      required:
+        - firstname
+        - lastname
+        - email

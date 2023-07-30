@@ -1,0 +1,134 @@
+swagger: '2.0'
+info:
+  version: '1.0.0'
+  title: 'API de Usuarios'
+  description: 'Documentación de la API de usuarios'
+
+paths:
+  /api/users/:
+    get:
+      tags:
+        - 'Users'
+      summary: 'Return a list of users'
+      operationId: 'getUsers'
+      produces:
+        - 'application/json'
+      responses:
+        '200':
+          description: 'A JSON array of users'
+          schema:
+            type: 'array'
+            items:
+              $ref: '#/components/schemas/User'
+        '403':
+          description: 'Forbidden'
+        '401':
+          description: 'Unauthorized, expired or invalid token'
+
+    post:
+      tags:
+        - 'Users'
+      summary: 'Create new User'
+      operationId: 'newUser'
+      produces:
+        - 'application/json'
+      consumes:
+        - 'application/json'
+      parameters:
+        - in: body
+          name: newUser
+          description: 'User object to be created'
+          required: true
+          schema:
+            $ref: '#/components/schemas/NewUser'
+      responses:
+        '201':
+          description: 'User created'
+          schema:
+            $ref: '#/components/schemas/User'
+        '400':
+          description: 'Invalid data in request body'
+
+  /api/users/{id}:
+    get:
+      tags:
+        - 'Users'
+      summary: 'Returns a user by id'
+      operationId: 'getUser'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: path
+          name: id
+          description: 'ID of the user to get'
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 'A User object'
+          schema:
+            $ref: '#/components/schemas/User'
+        '401':
+          description: 'Unauthorized, expired or invalid token'
+        '403':
+          description: 'Forbidden'
+        '404':
+          description: 'User not found'
+
+    put:
+      tags:
+        - 'Users'
+      summary: 'Update a user by id'
+      operationId: 'updateUser'
+      produces:
+        - 'application/json'
+      consumes:
+        - 'application/json'
+      parameters:
+        - in: path
+          name: id
+          description: 'ID of the user to update'
+          required: true
+          type: string
+        - in: body
+          name: updatedUser
+          description: 'Updated user object'
+          required: true
+          schema:
+            $ref: '#/components/schemas/UpdatedUser'
+      responses:
+        '200':
+          description: 'User updated'
+          schema:
+            $ref: '#/components/schemas/User'
+        '401':
+          description: 'Unauthorized, expired or invalid token'
+        '403':
+          description: 'Forbidden'
+        '404':
+          description: 'User not found'
+
+    delete:
+      tags:
+        - 'Users'
+      summary: 'Delete a user by id'
+      operationId: 'deleteUser'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: path
+          name: id
+          description: 'ID of the user to delete'
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 'User deleted'
+          schema:
+            $ref: '#/components/schemas/User'
+        '401':
+          description: 'Unauthorized, expired or invalid token'
+        '403':
+          description: 'Forbidden'
+        '404':
+          description: 'User not found'

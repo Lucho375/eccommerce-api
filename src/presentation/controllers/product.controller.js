@@ -1,5 +1,4 @@
 import { ProductManager } from '../../domain/managers/productManager.js'
-import { uploadImage } from '../../services/cloudinary.js'
 import ZodValidator from '../../domain/validations/zodValidator.js'
 import { productSchemaValidation } from '../../domain/validations/schemas/product.js'
 export class ProductController {
@@ -19,7 +18,7 @@ export class ProductController {
       const { id } = req.params
       const manager = new ProductManager()
       const product = await manager.findById(id)
-      if (product === null) return res.status(404).send({ ok: false, message: `cannot find product ${id}` })
+      if (product === null) return res.status(404).send({ ok: false, message: `Cannot find product ${id}` })
       res.status(200).send({ ok: true, payload: product })
     } catch (error) {
       next(error)
@@ -28,20 +27,13 @@ export class ProductController {
 
   static async createProduct(req, res, next) {
     try {
-      // const img = await uploadImage(
-      //   req.body.image,
-      //   'products',
-      //   `${req.body.title} - ${Date.now()}`
-      // )
-      // console.log(img)
-      // if (Object.keys(img)[0] === 'error')
-      //   return res
-      //     .status(400)
-      //     .send({ status: 'error', message: 'Failed to upload image!' })
-      // const newProduct = { ...req.body, thumbnail: img.public_id }
-      // const newProduct = { ...req.body }
-
-      const newProduct = new ZodValidator(productSchemaValidation).create({ ...req.body })
+      const { price, stock } = req.body
+      const newProduct = new ZodValidator(productSchemaValidation).create({
+        ...req.body,
+        stock: +stock,
+        price: +price,
+        thumbnail: [req.productImage]
+      })
       const manager = new ProductManager()
       const addedProd = await manager.createProduct(newProduct)
       res.status(201).send({ ok: true, payload: addedProd })
@@ -55,7 +47,7 @@ export class ProductController {
       const { id } = req.params
       const manager = new ProductManager()
       const product = await manager.delete(id)
-      if (product === null) return res.status(404).send({ ok: false, message: `cannot find product ${id}` })
+      if (product === null) return res.status(404).send({ ok: false, message: `Cannot find product ${id}` })
       res.status(204).send({ ok: true })
     } catch (error) {
       next(error)
@@ -64,10 +56,10 @@ export class ProductController {
 
   static async updateProduct(req, res, next) {
     try {
-      const update = req.body
       const { id } = req.params
+      const updateValidation = new ZodValidator(productSchemaValidation).update(req.body)
       const manager = new ProductManager()
-      const updatedProduct = await manager.update(id, update)
+      const updatedProduct = await manager.update(id, updateValidation)
       if (updatedProduct === null) {
         return res.status(404).send({ ok: false, message: `Cannot find product ${id}` })
       }

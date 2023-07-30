@@ -1,0 +1,28 @@
+components:
+  schemas:
+    Ticket:
+      type: 'object'
+      properties:
+        id:
+          type: 'string'
+        code:
+          type: 'string'
+        purchase_datetime:
+          type: 'date'
+        amount:
+          type: 'number'
+        purchaser:
+          type: 'string'
+        products:
+          type: 'array'
+          items:
+            $ref: '#/components/schemas/ProductPurchased'
+    ProductPurchased:
+      type: 'object'
+      properties:
+        id:
+          type: 'string'
+        quantity:
+          type: 'number'
+        price:
+          type: 'number'

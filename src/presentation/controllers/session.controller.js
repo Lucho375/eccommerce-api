@@ -4,7 +4,7 @@ class SessionController {
     try {
       const manager = new SessionManager()
       await manager.signup(req.body)
-      res.status(201).send({ ok: true })
+      res.status(201).send({ ok: true, message: 'User created' })
     } catch (error) {
       next(error)
     }

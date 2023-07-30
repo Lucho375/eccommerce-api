@@ -1,7 +1,7 @@
 import { dependencies } from '../../constants/dependencies.js'
 import containers from '../../containers.js'
 import PasswordService from '../../services/passwordService.js'
-import { ValidationError } from '../validations/ValidationError.js'
+import { NotFoundError, ValidationError } from '../validations/ValidationError.js'
 
 class UserManager {
   #userRepository
@@ -25,8 +25,10 @@ class UserManager {
     return createdUser
   }
 
-  getOne(value) {
-    return this.#userRepository.getOne(value)
+  async getOne(value) {
+    const user = await this.#userRepository.getOne(value)
+    if (!user) throw new NotFoundError('Usuario no encontrado')
+    return user
   }
 
   updateOne(id, update) {

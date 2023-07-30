@@ -12,4 +12,5 @@ containers.register({
   ticketDao: asClass(TicketMongooseRepository).singleton(),
   userDao: asClass(UserMongooseRepository).singleton()
 })
+
 export default containers

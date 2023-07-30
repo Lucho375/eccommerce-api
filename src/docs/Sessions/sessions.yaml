@@ -1,0 +1,154 @@
+paths:
+  /api/sessions/signup:
+    post:
+      tags:
+        - 'Sessions'
+      summary: 'User signup'
+      operationId: 'signup'
+      consumes:
+        - 'application/json'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: body
+          name: user
+          description: 'User object to be created'
+          required: true
+          schema:
+            $ref: '#/components/schemas/NewUser'
+      responses:
+        '201':
+          description: 'User created'
+          schema:
+            $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: 'Invalid data in request body'
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  /api/sessions/login:
+    post:
+      tags:
+        - 'Sessions'
+      summary: 'User login'
+      operationId: 'login'
+      consumes:
+        - 'application/json'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: body
+          name: credentials
+          description: 'User credentials'
+          required: true
+          schema:
+            $ref: '#/components/schemas/LoginCredentials'
+      responses:
+        '200':
+          description: 'User logged in'
+          schema:
+            $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: 'Wrong email or password'
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  /api/sesssions/logout:
+    post:
+      tags:
+        - 'Sessions'
+      summary: 'User logout'
+      operationId: 'logout'
+      responses:
+        '204':
+          description: 'User logged out'
+
+  /api/sessions/refresh-token:
+    post:
+      tags:
+        - 'Sessions'
+      summary: 'Refresh token'
+      operationId: 'refreshToken'
+      produces:
+        - 'application/json'
+      responses:
+        '200':
+          description: 'Token refreshed'
+          schema:
+            $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: 'Unauthorized'
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  /api/sessions/forgot-password:
+    post:
+      tags:
+        - 'Sessions'
+      summary: 'Forgot password'
+      operationId: 'forgotPassword'
+      consumes:
+        - 'application/json'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: body
+          name: email
+          description: 'User email'
+          required: true
+          schema:
+            $ref: '#/components/schemas/ForgotPasswordEmail'
+      responses:
+        '200':
+          description: 'Password reset email sent'
+          schema:
+            $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: 'User not found'
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  /api/sessions/reset-password:
+    post:
+      tags:
+        - 'Sessions'
+      summary: 'Reset password'
+      operationId: 'resetPassword'
+      consumes:
+        - 'application/json'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: body
+          name: resetTokenAndPassword
+          description: 'Reset token and new password'
+          required: true
+          schema:
+            $ref: '#/components/schemas/ResetPassword'
+      responses:
+        '200':
+          description: 'Password reset successful'
+          schema:
+            $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: 'Something went wrong'
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  /api/sessions/current-user:
+    get:
+      tags:
+        - 'Sessions'
+      summary: 'Get current user'
+      operationId: 'getCurrentUser'
+      produces:
+        - 'application/json'
+      responses:
+        '200':
+          description: 'Current user details'
+          schema:
+            $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: 'User not found'
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'

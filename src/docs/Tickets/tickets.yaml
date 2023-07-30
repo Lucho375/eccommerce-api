@@ -1,0 +1,44 @@
+paths:
+  /api/tickets/:
+    get:
+      tags:
+        - 'Tickets'
+      summary: 'Return a list of tickets'
+      operationId: 'getAllTickets'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: query
+          name: purchaser
+          description: 'Filter tickets by purchaser email'
+          type: string
+      responses:
+        '200':
+          description: 'A JSON array of tickets'
+          schema:
+            type: 'Array'
+            items:
+              $ref: '#/components/schemas/Ticket'
+        '401':
+          description: 'Unauthorized, expired or invalid token'
+  /api/tickets/{tid}:
+    get:
+      tags:
+        - 'Tickets'
+      summary: 'Return a ticket by id'
+      operationId: 'getTicketById'
+      produces:
+        - 'application/json'
+      parameters:
+        - in: path
+          name: tid
+          description: 'ID of the ticket to get'
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 'Return a ticket'
+          schema:
+            $ref: '#/components/schemas/Ticket'
+        '401':
+          description: 'Unauthorized, expired or invalid token'
