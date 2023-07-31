@@ -5,6 +5,7 @@ paths:
         - 'Users'
       summary: 'Return a list of users'
       operationId: 'getUsers'
+      description: 'Allowed only for admin users'
       produces:
         - 'application/json'
       security:
@@ -28,6 +29,7 @@ paths:
         - 'Users'
       summary: 'Create new User'
       operationId: 'newUser'
+      description: 'Allowed only for admin users'
       produces:
         - 'application/json'
       consumes:
@@ -55,6 +57,7 @@ paths:
         - 'Users'
       summary: 'Returns a user by id'
       operationId: 'getUser'
+      description: 'Allowed only for admin users'
       produces:
         - 'application/json'
       security:
@@ -82,6 +85,7 @@ paths:
         - 'Users'
       summary: 'Update a user by id'
       operationId: 'updateUser'
+      description: 'Allowed only for admin users'
       produces:
         - 'application/json'
       consumes:
@@ -116,6 +120,7 @@ paths:
       tags:
         - 'Users'
       summary: 'Delete a user by id'
+      description: 'Allowed only for admin users'
       operationId: 'deleteUser'
       produces:
         - 'application/json'

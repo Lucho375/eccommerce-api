@@ -11,7 +11,7 @@ import config from '../../config/index.js'
 import sessionRoutes from '../routes/session.routes.js'
 import errorHandler from '../middlewares/errorHandler.js'
 import NotFound from '../middlewares/NotFound.js'
-import { specs } from '../../swagger.js'
+import { specs, swaggerTheme } from '../../swagger.js'
 
 class AppExpress {
   init() {
@@ -32,7 +32,7 @@ class AppExpress {
     this.app.use('/api/tickets', ticketRoutes)
 
     // Docs
-    this.app.use('/api/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
+    this.app.use('/api/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs, swaggerTheme))
 
     // ErrorHandler
     this.app.use(errorHandler)

@@ -28,6 +28,7 @@ paths:
         - 'Products'
       summary: 'Create a new product'
       operationId: 'createProduct'
+      description: 'Allowed only for admin users'
       security:
         - BearerAuth: []
       requestBody:
@@ -45,3 +46,61 @@ paths:
           description: 'Invalid request body data'
         '401':
           description: 'Unauthorized, expired or invalid token'
+  /api/products/{id}:
+    put:
+      tags:
+        - 'Products'
+      summary: 'Update a product'
+      operationId: 'updateProduct'
+      description: 'Allowed only for admin users'
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductBody'
+    get:
+      tags:
+        - 'Products'
+      summary: 'Get a product by id'
+      operationId: 'getProduct'
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: 'path'
+          name: id
+          required: true
+          schema:
+            type: string
+            description: 'ID of the product to get'
+      responses:
+        '404':
+          description: 'Product not found'
+        '200':
+          description: 'Return a product'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+    delete:
+      tags:
+        - 'Products'
+      summary: 'Delete a product by id'
+      operationId: 'deleteProduct'
+      description: 'Allowed only for admin users'
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: 'ID of the product to delete'
+    responses:
+      '204':
+        description: 'Product deleted successfully'
+      '404':
+        description: 'Product not found'
