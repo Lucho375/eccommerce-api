@@ -32,7 +32,7 @@ export class ProductController {
         ...req.body,
         stock: +stock,
         price: +price,
-        thumbnail: [req.productImage]
+        thumbnail: [req.uploadedImage]
       })
       const manager = new ProductManager()
       const addedProd = await manager.createProduct(newProduct)

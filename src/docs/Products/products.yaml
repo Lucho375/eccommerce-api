@@ -1,0 +1,47 @@
+paths:
+  /api/products/:
+    get:
+      tags:
+        - 'Products'
+      summary: 'Return a list of products'
+      operationId: 'getProducts'
+      security:
+        - BearerAuth: []
+      produces:
+        - 'application/json'
+      responses:
+        '200':
+          description: 'A JSON array of products'
+          schema:
+            type: 'object'
+            properties:
+              ok:
+                type: 'boolean'
+              payload:
+                type: 'array'
+                items:
+                  $ref: '#/components/schemas/Product'
+        '401':
+          description: 'Unauthorized, expired or invalid token'
+    post:
+      tags:
+        - 'Products'
+      summary: 'Create a new product'
+      operationId: 'createProduct'
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductBody'
+      produces:
+        - 'application/json'
+      responses:
+        '201':
+          description: 'Return created product'
+        '400':
+          description: 'Invalid request body data'
+        '401':
+          description: 'Unauthorized, expired or invalid token'

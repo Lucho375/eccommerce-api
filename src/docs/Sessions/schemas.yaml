@@ -1,26 +1,5 @@
 components:
   schemas:
-    AuthResponse:
-      type: object
-      properties:
-        ok:
-          type: boolean
-          enum: [true]
-        payload:
-          type: object
-          properties:
-            accessToken:
-              type: string
-
-    ErrorResponse:
-      type: object
-      properties:
-        ok:
-          type: boolean
-          enum: [false]
-        message:
-          type: string
-
     LoginCredentials:
       type: object
       properties:

@@ -18,6 +18,10 @@ components:
           type: 'boolean'
         image:
           type: 'string'
+        updatedAt:
+          type: 'Date'
+        createdAt:
+          type: 'Date'
       required:
         - firstname
         - lastname

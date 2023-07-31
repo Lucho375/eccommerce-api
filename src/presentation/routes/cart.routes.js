@@ -5,12 +5,12 @@ import { isAuthenticated } from '../middlewares/auth/auth.js'
 const router = Router()
 
 router
-  .get('/:user', isAuthenticated, CartController.get) // Obtiene un carrito
-  .post('/', isAuthenticated, CartController.create) // Crea un carrito
-  .post('/:cid/products/:pid', isAuthenticated, CartController.addProduct) // Agrega un producto al carrito
-  .delete('/:cid/products/:pid', isAuthenticated, CartController.deleteProduct) // Elimina un producto de el carrito
-  .put('/:cid/products/:pid', isAuthenticated, CartController.updateProductQuantity) // Actualiza la cantidad del producto en un carrito
-  .delete('/:cid', isAuthenticated, CartController.deleteAllProducts) // Borra todos los productos de un carrito
-  .post('/:cid/purchase', isAuthenticated, CartController.checkout) // finalizar compra
+  .get('/:user', isAuthenticated, CartController.get)
+  .post('/', isAuthenticated, CartController.create)
+  .post('/:cid/products/:pid', isAuthenticated, CartController.addProduct)
+  .delete('/:cid/products/:pid', isAuthenticated, CartController.deleteProduct)
+  .put('/:cid/products/:pid', isAuthenticated, CartController.updateProductQuantity)
+  .delete('/:cid', isAuthenticated, CartController.deleteAllProducts)
+  .post('/:cid/purchase', isAuthenticated, CartController.checkout)
 
 export default router

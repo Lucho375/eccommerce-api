@@ -9,13 +9,13 @@ paths:
         - 'application/json'
       produces:
         - 'application/json'
-      parameters:
-        - in: body
-          name: user
-          description: 'User object to be created'
-          required: true
-          schema:
-            $ref: '#/components/schemas/NewUser'
+      requestBody:
+        required: true
+        description: 'User object to be created'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewUser'
       responses:
         '201':
           description: 'User created'
@@ -59,6 +59,8 @@ paths:
         - 'Sessions'
       summary: 'User logout'
       operationId: 'logout'
+      security:
+        - BearerAuth: []
       responses:
         '204':
           description: 'User logged out'
@@ -69,6 +71,8 @@ paths:
         - 'Sessions'
       summary: 'Refresh token'
       operationId: 'refreshToken'
+      security:
+        - BearerAuth: []
       produces:
         - 'application/json'
       responses:
@@ -91,6 +95,8 @@ paths:
         - 'application/json'
       produces:
         - 'application/json'
+      security:
+        - BearerAuth: []
       parameters:
         - in: body
           name: email
@@ -118,6 +124,8 @@ paths:
         - 'application/json'
       produces:
         - 'application/json'
+      security:
+        - BearerAuth: []
       parameters:
         - in: body
           name: resetTokenAndPassword
@@ -141,6 +149,8 @@ paths:
         - 'Sessions'
       summary: 'Get current user'
       operationId: 'getCurrentUser'
+      security:
+        - BearerAuth: []
       produces:
         - 'application/json'
       responses:

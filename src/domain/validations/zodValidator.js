@@ -7,7 +7,7 @@ class ZodValidator {
   }
 
   create(data) {
-    return this.#schema.required().strict().parse(data)
+    return this.#schema.required().parse(data)
   }
 
   update(data) {

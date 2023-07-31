@@ -7,5 +7,6 @@ export const productSchemaValidation = z.object({
   thumbnail: z.array(z.string().url()).default([]),
   price: z.number().positive('Product price must be a number'),
   stock: z.number().positive('Product stock must be a positive number'),
-  category: z.string().nonempty('Product category is required')
+  category: z.string().nonempty('Product category is required'),
+  status: z.boolean()
 })
