@@ -12,10 +12,14 @@ import sessionRoutes from '../routes/session.routes.js'
 import errorHandler from '../middlewares/errorHandler.js'
 import NotFound from '../middlewares/NotFound.js'
 import { specs, swaggerTheme } from '../../swagger.js'
+import { requestInfoLogger } from '../middlewares/logger.js'
+import logger from '../../pino.js'
+import Sentry, { sentry } from '../../sentry.js'
 
 class AppExpress {
   init() {
     this.app = express()
+    this.sentry = sentry(this.app)
     this.app.port = config.SERVER_PORT
     this.app.use(cors(config.corsOptions))
     this.app.use(urlencoded({ extended: true, limit: '5mb' }))
@@ -24,6 +28,13 @@ class AppExpress {
   }
 
   build() {
+    // Sentry Handlers
+    this.app.use(Sentry.Handlers.requestHandler())
+    this.app.use(Sentry.Handlers.tracingHandler())
+
+    // logger
+    this.app.use(requestInfoLogger)
+
     // Routes
     this.app.use('/api/products', productsRoutes)
     this.app.use('/api/sessions', sessionRoutes)
@@ -33,6 +44,9 @@ class AppExpress {
 
     // Docs
     this.app.use('/api/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs, swaggerTheme))
+
+    // Sentry errorHandler
+    this.app.use(Sentry.Handlers.errorHandler())
 
     // ErrorHandler
     this.app.use(errorHandler)
@@ -46,7 +60,7 @@ class AppExpress {
   }
 
   listen() {
-    return this.app.listen(this.app.port, () => console.log(`Server running on port : ${this.app.port}`))
+    return this.app.listen(this.app.port, () => logger.info(`Server running on port : ${this.app.port}`))
   }
 }
 

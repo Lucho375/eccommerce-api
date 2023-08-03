@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import logger from '../../pino.js'
 
 class MongooseAdapter {
   async init(uri) {
@@ -8,7 +9,7 @@ class MongooseAdapter {
         useUnifiedTopology: true
       })
 
-      console.log('Connected to mongoose')
+      logger.info('Connected to mongoose')
     } catch (err) {
       console.error('Error connecting to mongoose:', err)
       throw err

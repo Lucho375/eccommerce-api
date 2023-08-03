@@ -34,5 +34,6 @@ export default {
       SECRET: process.env.RESET_PASSWORD_TOKEN_SECRET,
       EXPIRES: '10m'
     }
-  }
+  },
+  SENTRY_DSN: process.env.SENTRY_DSN
 }
