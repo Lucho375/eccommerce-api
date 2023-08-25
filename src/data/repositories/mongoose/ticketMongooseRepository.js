@@ -1,7 +1,7 @@
 import { TicketModel } from '../../models/mongoose/ticket.model.js'
-import Ticket from '../../../domain/entities/ticket.js'
+import { Ticket } from '../../../domain/index.js'
 
-class TicketMongooseRepository {
+export class TicketMongooseRepository {
   async create(ticket) {
     const createdTicket = await TicketModel.create(ticket)
     return this.#transformTickets(createdTicket)
@@ -41,5 +41,3 @@ class TicketMongooseRepository {
     })
   }
 }
-
-export default TicketMongooseRepository

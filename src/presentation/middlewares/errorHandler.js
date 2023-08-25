@@ -5,7 +5,7 @@ import { NotFoundError, ValidationError } from '../../domain/validations/Validat
 import logger from '../../pino.js'
 const { TokenExpiredError, JsonWebTokenError } = jwt
 
-export default function (error, req, res, next) {
+export function errorHandler(error, req, res, next) {
   // JWT TOKENS
   if (error instanceof TokenExpiredError || error instanceof JsonWebTokenError) {
     return res.status(403).send({ status: 'error', message: 'Invalid token' })

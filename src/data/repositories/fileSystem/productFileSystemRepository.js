@@ -2,7 +2,7 @@ import fs from 'fs/promises'
 import { v4 as uuidv4 } from 'uuid'
 import path from 'path'
 
-class ProductFileSystemRepository {
+export class ProductFileSystemRepository {
   constructor() {
     this.filePath = path.resolve('./src/database/products/products.json')
   }
@@ -64,5 +64,3 @@ class ProductFileSystemRepository {
     return [...data]
   }
 }
-
-export default ProductFileSystemRepository

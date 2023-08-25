@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import 'dotenv/config'
 import config from '../config/index.js'
-class TokenService {
+export class TokenService {
   generateTokens(user) {
     const accessToken = this.generateAccessToken(user)
     const refreshToken = this.generateRefreshToken(user)
@@ -38,5 +38,3 @@ class TokenService {
     return jwt.verify(passwordToken, config.JWT.RESET_PASSWORD.SECRET)
   }
 }
-
-export default TokenService

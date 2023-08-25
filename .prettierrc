@@ -6,5 +6,6 @@
   "semi": false,
   "editorconfig": false,
   "arrowParens": "avoid",
-  "printWidth": 120
+  "printWidth": 120,
+  "bracketSpacing": true
 }

@@ -1,6 +1,6 @@
-import CartModel from '../../models/mongoose/cart.model.js'
+import { CartModel } from '../../models/index.js'
 
-class CartMongooseRepository {
+export class CartMongooseRepository {
   async addProduct(cid, pid) {
     const cart = await CartModel.findOne({ _id: cid, 'products._id': pid })
     if (cart) {
@@ -47,16 +47,13 @@ class CartMongooseRepository {
     const cartToCheckout = await CartModel.findById(cid)
       .populate('user', '-_id email')
       .populate('products._id', 'price')
-
     return {
       ...cartToCheckout._doc,
       products: cartToCheckout.products.map(({ _id, quantity }) => ({
-        _id: _id._id,
+        id: _id._id,
         price: _id.price,
         quantity
       }))
     }
   }
 }
-
-export default CartMongooseRepository

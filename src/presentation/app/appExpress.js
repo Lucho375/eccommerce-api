@@ -1,30 +1,30 @@
-import express, { urlencoded } from 'express'
-import cors from 'cors'
+import * as Sentry from '@sentry/node'
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
+import express, { urlencoded } from 'express'
 import swaggerUiExpress from 'swagger-ui-express'
 
-import userRoutes from '../routes/user.routes.js'
-import productsRoutes from '../routes/product.routes.js'
-import cartRoutes from '../routes/cart.routes.js'
-import ticketRoutes from '../routes/ticket.routes.js'
+// ROUTES
+import { CartRoutes, PaymentRoutes, ProductRoutes, SessionRoutes, TicketRoutes, UserRoutes } from '../routes/index.js'
+// MIDDLEWARES
+import { errorHandler, notFound, requestInfoLogger } from '../middlewares/index.js'
+// CONFIG
 import config from '../../config/index.js'
-import sessionRoutes from '../routes/session.routes.js'
-import errorHandler from '../middlewares/errorHandler.js'
-import NotFound from '../middlewares/NotFound.js'
-import { specs, swaggerTheme } from '../../swagger.js'
-import { requestInfoLogger } from '../middlewares/logger.js'
 import logger from '../../pino.js'
-import Sentry, { sentry } from '../../sentry.js'
+import { SentryService } from '../../services/index.js'
+import { specs, swaggerTheme } from '../../swagger.js'
 
 class AppExpress {
   init() {
     this.app = express()
-    this.sentry = sentry(this.app)
+    this.sentryService = new SentryService(this.app)
+    this.sentryService.initialize()
     this.app.port = config.SERVER_PORT
     this.app.use(cors(config.corsOptions))
     this.app.use(urlencoded({ extended: true, limit: '5mb' }))
     this.app.use(express.json({ limit: '5mb' }))
     this.app.use(cookieParser())
+    this.app.disable('x-powered-by')
   }
 
   build() {
@@ -36,11 +36,12 @@ class AppExpress {
     this.app.use(requestInfoLogger)
 
     // Routes
-    this.app.use('/api/products', productsRoutes)
-    this.app.use('/api/sessions', sessionRoutes)
-    this.app.use('/api/users', userRoutes)
-    this.app.use('/api/carts', cartRoutes)
-    this.app.use('/api/tickets', ticketRoutes)
+    this.app.use('/api/products', ProductRoutes)
+    this.app.use('/api/sessions', SessionRoutes)
+    this.app.use('/api/users', UserRoutes)
+    this.app.use('/api/carts', CartRoutes)
+    this.app.use('/api/tickets', TicketRoutes)
+    this.app.use('/api/payments', PaymentRoutes)
 
     // Docs
     this.app.use('/api/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs, swaggerTheme))
@@ -52,7 +53,7 @@ class AppExpress {
     this.app.use(errorHandler)
 
     // 404
-    this.app.all('*', NotFound)
+    this.app.all('*', notFound)
   }
 
   getApp() {

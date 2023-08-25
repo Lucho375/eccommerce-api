@@ -1,6 +1,6 @@
 import AppExpress from '../app/appExpress.js'
 
-class AppFactory {
+export class AppFactory {
   static create(appType = 'AppExpress') {
     const apps = new Map()
     apps.set('AppExpress', AppExpress)
@@ -8,5 +8,3 @@ class AppFactory {
     return new App()
   }
 }
-
-export default AppFactory

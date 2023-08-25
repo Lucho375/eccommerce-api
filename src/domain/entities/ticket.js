@@ -1,4 +1,4 @@
-class Ticket {
+export class Ticket {
   constructor(props) {
     this.id = props.id
     this.code = props.code
@@ -8,5 +8,3 @@ class Ticket {
     this.products = props.products
   }
 }
-
-export default Ticket

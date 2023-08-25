@@ -10,6 +10,4 @@ const imageFilter = (req, file, cb) => {
   cb(new ValidationError('Imagen no válida'))
 }
 
-const upload = multer({ storage, fileFilter: imageFilter })
-
-export default upload
+export const upload = multer({ storage, fileFilter: imageFilter })

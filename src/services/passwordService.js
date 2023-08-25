@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
 
-class PasswordService {
+export class PasswordService {
   static async compare(password, hash) {
     return bcrypt.compare(password, hash)
   }
@@ -10,5 +10,3 @@ class PasswordService {
     return bcrypt.hash(password, salt)
   }
 }
-
-export default PasswordService

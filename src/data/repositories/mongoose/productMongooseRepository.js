@@ -1,7 +1,7 @@
-import Product from '../../../domain/entities/product.js'
-import ProductModel from '../../models/mongoose/product.model.js'
+import { Product } from '../../../domain/index.js'
+import { ProductModel } from '../../models/index.js'
 
-class ProductMongooseRepository {
+export class ProductMongooseRepository {
   async getAllProducts(limit, category, sort) {
     const query = category ? { category } : {}
     const limitQuery = limit ? { limit } : {}
@@ -51,5 +51,3 @@ class ProductMongooseRepository {
     })
   }
 }
-
-export default ProductMongooseRepository

@@ -1,6 +1,6 @@
-import { USER_ROLES } from '../../../constants/roles.js'
-import UserManager from '../../../domain/managers/userManager.js'
-import TokenService from '../../../services/tokenService.js'
+import { USER_ROLES } from '../../constants/roles.js'
+import { UserManager } from '../../domain/index.js'
+import { TokenService } from '../../services/index.js'
 
 export function isAuthenticated(req, res, next) {
   const authHeader = req.headers.authorization || req.headers.Authorization

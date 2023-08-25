@@ -1,52 +1,46 @@
-import { dependencies } from '../../constants/dependencies.js'
+import { CONTAINERS } from '../../constants/containers.js'
 import containers from '../../containers.js'
-import Cart from '../entities/cart.js'
+import { Cart, CartProduct } from '../index.js'
 import { NotFoundError, ValidationError } from '../validations/ValidationError.js'
 import { ProductManager } from './productManager.js'
 import { TicketManager } from './ticketManager.js'
 
 export class CartManager {
   constructor() {
-    this.cartRepository = containers.resolve(dependencies.cartDao)
+    this.cartRepository = containers.resolve(CONTAINERS.cartDao)
     this.productManager = new ProductManager()
     this.ticketManager = new TicketManager()
   }
 
-  addProduct(cid, pid) {
-    return this.cartRepository.addProduct(cid, pid)
+  async addProduct(cid, pid) {
+    const cart = await this.cartRepository.addProduct(cid, pid)
+    return this.#transformCart(cart)
   }
 
   async create(cart) {
     const cartInDb = await this.cartRepository.create(cart)
-
-    return new Cart({
-      id: cartInDb._id,
-      user: cartInDb.user,
-      products: cartInDb.products
-    })
+    return this.#transformCart(cartInDb)
   }
 
   async get(user) {
     const cart = await this.cartRepository.get(user)
     if (!cart) throw new NotFoundError('Cart doesnt exists')
-
-    return new Cart({
-      id: cart._id,
-      user: cart.user,
-      products: cart.products
-    })
+    return this.#transformCart(cart)
   }
 
-  deleteProduct(cid, pid) {
-    return this.cartRepository.deleteProduct(cid, pid)
+  async deleteProduct(cid, pid) {
+    const deletedProductInCart = await this.cartRepository.deleteProduct(cid, pid)
+    return this.#transformCart(deletedProductInCart)
   }
 
-  updateProductQuantity(cid, pid, quantity) {
-    return this.cartRepository.updateProductQuantity(cid, pid, quantity)
+  async updateProductQuantity(cid, pid, quantity) {
+    const updatedCart = await this.cartRepository.updateProductQuantity(cid, pid, quantity)
+    return this.#transformCart(updatedCart)
   }
 
-  deleteAllProducts(cid) {
-    return this.cartRepository.deleteAllProducts(cid)
+  async deleteAllProducts(cid) {
+    const emptyCart = await this.cartRepository.deleteAllProducts(cid)
+    return this.#transformCart(emptyCart)
   }
 
   async checkout(cid) {
@@ -54,7 +48,7 @@ export class CartManager {
     let totalAmount = 0
 
     for (const product of checkoutCart.products) {
-      const productInDb = await this.productManager.findById(product._id)
+      const productInDb = await this.productManager.findById(product.id)
       if (productInDb.stock === 0) {
         throw new ValidationError(`El producto ${productInDb.title} se encuentra sin stock`)
       }
@@ -65,7 +59,7 @@ export class CartManager {
       }
       totalAmount += productInDb.price * product.quantity
 
-      const updatedProduct = await this.productManager.update(product._id, { $inc: { stock: -product.quantity } })
+      const updatedProduct = await this.productManager.update(product.id, { $inc: { stock: -product.quantity } })
 
       if (updatedProduct.stock === 0) {
         updatedProduct.status = false
@@ -82,5 +76,14 @@ export class CartManager {
     await this.cartRepository.deleteAllProducts(cid)
 
     return ticket
+  }
+
+  #transformCart(data) {
+    if (!data) return null
+    return new Cart({
+      id: data._id.toString(),
+      user: data.user.toString(),
+      products: data.products.map(product => new CartProduct(product))
+    })
   }
 }

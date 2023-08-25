@@ -1,17 +1,16 @@
 import { Router } from 'express'
-import SessionController from '../controllers/session.controller.js'
-import { isAuthenticated } from '../middlewares/auth/auth.js'
-import upload from '../middlewares/multer.js'
-import imageUploader from '../middlewares/imageUploader.js'
+import { SessionController } from '../controllers/index.js'
+import { upload, imageUploader, asyncErrorWrapper, isAuthenticated } from '../middlewares/index.js'
+
 const sessionRoutes = Router()
 
 sessionRoutes
-  .post('/signup', upload.single('file'), imageUploader('users'), SessionController.signup)
-  .post('/login', SessionController.login)
-  .post('/forgot-password', SessionController.forgotPassword)
-  .post('/reset-password', SessionController.resetPassword)
-  .get('/logout', SessionController.logout)
-  .get('/refresh-token', SessionController.refreshToken)
-  .get('/current', isAuthenticated, SessionController.getCurrentUser)
+  .post('/signup', asyncErrorWrapper(SessionController.signup))
+  .post('/login', asyncErrorWrapper(SessionController.login))
+  .post('/forgot-password', asyncErrorWrapper(SessionController.forgotPassword))
+  .post('/reset-password', asyncErrorWrapper(SessionController.resetPassword))
+  .get('/logout', asyncErrorWrapper(SessionController.logout))
+  .get('/refresh-token', asyncErrorWrapper(SessionController.refreshToken))
+  .get('/current', isAuthenticated, asyncErrorWrapper(SessionController.getCurrentUser))
 
 export default sessionRoutes

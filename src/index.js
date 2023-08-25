@@ -1,5 +1,5 @@
-import DbFactory from './data/factories/dbFactory.js'
-import AppFactory from './presentation/factories/appFactory.js'
+import { DbFactory } from './data/factories/index.js'
+import { AppFactory } from './presentation/factories/index.js'
 import config from './config/index.js'
 ;(async () => {
   const db = DbFactory.create()

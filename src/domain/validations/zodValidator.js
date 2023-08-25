@@ -1,7 +1,8 @@
-class ZodValidator {
+export class ZodValidator {
   #schema
   #updateSchema
   constructor(schema) {
+    if (!schema) throw new Error('Zod schema is needed')
     this.#schema = schema
     this.#updateSchema = this.#schema.partial()
   }
@@ -14,5 +15,3 @@ class ZodValidator {
     return this.#updateSchema.parse(data)
   }
 }
-
-export default ZodValidator

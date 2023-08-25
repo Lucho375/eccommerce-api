@@ -1,24 +1,21 @@
 import { Router } from 'express'
-
-import { isAdmin, isAuthenticated } from '../middlewares/auth/auth.js'
-import { ProductController } from '../controllers/product.controller.js'
-import imageUploader from '../middlewares/imageUploader.js'
-import upload from '../middlewares/multer.js'
+import { ProductController } from '../controllers/index.js'
+import { imageUploader, upload, asyncErrorWrapper, isAdmin, isAuthenticated } from '../middlewares/index.js'
 
 const productsRoutes = Router()
 
 productsRoutes
-  .get('/', isAuthenticated, ProductController.getProducts)
-  .get('/:id', isAuthenticated, ProductController.getProductById)
+  .get('/', isAuthenticated, asyncErrorWrapper(ProductController.getProducts))
+  .get('/:id', isAuthenticated, asyncErrorWrapper(ProductController.getProductById))
   .post(
     '/',
     isAuthenticated,
     isAdmin,
     upload.single('file'),
     imageUploader('products'),
-    ProductController.createProduct
+    asyncErrorWrapper(ProductController.createProduct)
   )
-  .delete('/:id', isAuthenticated, isAdmin, ProductController.deleteProductById)
-  .put('/:id', isAuthenticated, isAdmin, ProductController.updateProduct)
+  .delete('/:id', isAuthenticated, isAdmin, asyncErrorWrapper(ProductController.deleteProductById))
+  .put('/:id', isAuthenticated, isAdmin, asyncErrorWrapper(ProductController.updateProduct))
 
 export default productsRoutes

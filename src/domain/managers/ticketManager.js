@@ -1,10 +1,10 @@
 import { v4 as uuidv4 } from 'uuid'
 import containers from '../../containers.js'
-import { dependencies } from '../../constants/dependencies.js'
+import { CONTAINERS } from '../../constants/containers.js'
 export class TicketManager {
   #ticketRepository
   constructor() {
-    this.#ticketRepository = containers.resolve(dependencies.ticketDao)
+    this.#ticketRepository = containers.resolve(CONTAINERS.ticketDao)
   }
 
   create({ amount, purchaser, products }) {

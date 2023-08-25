@@ -2,7 +2,7 @@ import fs from 'fs'
 import handlebars from 'handlebars'
 import { resolve } from 'path'
 
-class EmailService {
+export class EmailService {
   constructor(transporter) {
     if (!transporter) throw new Error('Email transporter not provided')
     this.transporter = transporter
@@ -48,5 +48,3 @@ class EmailService {
     })
   }
 }
-
-export default EmailService

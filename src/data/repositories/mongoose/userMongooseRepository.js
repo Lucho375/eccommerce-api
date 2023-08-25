@@ -1,7 +1,7 @@
-import User from '../../../domain/entities/user.js'
-import UserModel from '../../models/mongoose/user.model.js'
+import { User } from '../../../domain/index.js'
+import { UserModel } from '../../models/index.js'
 
-class UserMongooseRepository {
+export class UserMongooseRepository {
   async create(user) {
     const created = await UserModel.create(user)
     return this.#transformUsers(created)
@@ -51,5 +51,3 @@ class UserMongooseRepository {
     })
   }
 }
-
-export default UserMongooseRepository

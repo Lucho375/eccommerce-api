@@ -1,4 +1,4 @@
-class User {
+export class User {
   constructor(props) {
     this.id = props.id
     this.age = props.age
@@ -13,5 +13,3 @@ class User {
     this.updatedAt = props.updatedAt
   }
 }
-
-export default User

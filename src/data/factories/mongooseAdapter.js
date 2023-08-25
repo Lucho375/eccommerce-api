@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import logger from '../../pino.js'
 
-class MongooseAdapter {
+export class MongooseAdapter {
   async init(uri) {
     try {
       await mongoose.connect(uri, {
@@ -36,5 +36,3 @@ class MongooseAdapter {
     }
   }
 }
-
-export default MongooseAdapter

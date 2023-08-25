@@ -1,10 +1,8 @@
-import EmailService from '../../services/emails/emailService.js'
+import { EmailService, PasswordService, TokenService } from '../../services/index.js'
 import { nodemailerTransporter } from '../../services/emails/transporters/nodemailer/index.js'
-import PasswordService from '../../services/passwordService.js'
-import TokenService from '../../services/tokenService.js'
-import UserManager from './userManager.js'
+import { UserManager } from './index.js'
 
-class AuthManager {
+export class AuthManager {
   constructor() {
     this.userManager = new UserManager()
     this.tokenService = new TokenService()
@@ -36,12 +34,11 @@ class AuthManager {
     await this.emailService.sendPasswordReset({ email, firstname: user.firstname, token })
   }
 
-  async resetPassword(token, newPassword) {
+  async resetPassword({ token, password }) {
+    console.log(token, password)
     const decodedUser = this.tokenService.verifyPasswordToken(token)
-    const hashedPassword = await this.passwordService.hash(newPassword)
+    const hashedPassword = await this.passwordService.hash(password)
     const updatedUser = await this.userManager.updatePassword(decodedUser.id, { password: hashedPassword })
     return updatedUser
   }
 }
-
-export default AuthManager

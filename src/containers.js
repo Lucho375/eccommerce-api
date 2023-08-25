@@ -1,8 +1,10 @@
 import { createContainer, asClass } from 'awilix'
-import CartMongooseRepository from './data/repositories/mongoose/cartMongooseRepository.js'
-import ProductMongooseRepository from './data/repositories/mongoose/productMongooseRepository.js'
-import TicketMongooseRepository from './data/repositories/mongoose/ticketMongooseRepository.js'
-import UserMongooseRepository from './data/repositories/mongoose/userMongooseRepository.js'
+import {
+  CartMongooseRepository,
+  ProductMongooseRepository,
+  TicketMongooseRepository,
+  UserMongooseRepository
+} from './data/repositories/index.js'
 
 const containers = createContainer()
 

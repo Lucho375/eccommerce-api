@@ -29,7 +29,7 @@ describe('TicketsDao', () => {
   describe('TicketDao.create()', () => {
     it('should return a new ticket', async () => {
       const newTicket = await ticketDao.create(ticketMock(ticketData))
-      expect(newTicket.products[0]._id.toString()).toBe(ticketData.productId)
+      expect(newTicket.products[0].id.toString()).toBe(ticketData.productId)
       ticketId = newTicket.id
     })
   })
@@ -39,7 +39,7 @@ describe('TicketsDao', () => {
       const ticket = await ticketDao.getOne({ _id: ticketId })
       expect(ticket.purchaser).toEqual(ticketData.purchaser)
       expect(ticket.amount).toEqual(ticketData.amount)
-      expect(ticket.products[0]._id.toString()).toEqual(ticketData.productId)
+      expect(ticket.products[0].id.toString()).toEqual(ticketData.productId)
       expect(ticket.products[0].quantity).toEqual(ticketData.productQuantity)
       expect(ticket.products[0].price).toEqual(ticketData.productPrice)
     })

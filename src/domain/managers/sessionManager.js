@@ -1,7 +1,7 @@
-import UserManager from './userManager.js'
-import AuthManager from './authManager.js'
+import { UserManager, AuthManager } from './index.js'
+import { User } from '../index.js'
 
-class SessionManager {
+export class SessionManager {
   constructor() {
     this.userManager = new UserManager()
     this.authManager = new AuthManager()
@@ -11,7 +11,7 @@ class SessionManager {
     return this.userManager.create(user)
   }
 
-  login(email, password) {
+  login({ email, password }) {
     return this.authManager.login(email, password)
   }
 
@@ -19,18 +19,16 @@ class SessionManager {
     return this.authManager.refreshToken(refreshToken)
   }
 
-  forgotPassword(email) {
+  forgotPassword({ email }) {
     return this.authManager.forgotPassword(email)
   }
 
-  resetPassword(token, newPassword) {
-    return this.authManager.resetPassword(token, newPassword)
+  resetPassword({ token, password }) {
+    return this.authManager.resetPassword({ token, password })
   }
 
   async getCurrentUser(id) {
     const user = await this.userManager.getOne({ _id: id })
-    return { ...user, password: undefined }
+    return new User({ ...user, password: undefined })
   }
 }
-
-export default SessionManager

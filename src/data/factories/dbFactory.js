@@ -1,6 +1,6 @@
-import MongooseAdapter from './mongooseAdapter.js'
+import { MongooseAdapter } from './index.js'
 
-class DbFactory {
+export class DbFactory {
   static create(dbType = 'MongooseAdapter') {
     const dbs = new Map()
     dbs.set('MongooseAdapter', MongooseAdapter)
@@ -13,5 +13,3 @@ class DbFactory {
     return new Db()
   }
 }
-
-export default DbFactory

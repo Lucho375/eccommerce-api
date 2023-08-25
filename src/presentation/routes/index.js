@@ -1,0 +1,6 @@
+export { default as CartRoutes } from './cart.routes.js'
+export { default as PaymentRoutes } from './payment.routes.js'
+export { default as ProductRoutes } from './product.routes.js'
+export { default as SessionRoutes } from './session.routes.js'
+export { default as TicketRoutes } from './ticket.routes.js'
+export { default as UserRoutes } from './user.routes.js'

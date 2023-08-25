@@ -1,6 +1,5 @@
 import { program } from 'commander'
-
-import AddUserCommand from './presentation/commands/addUser/addUser.js'
+import AddUserCommand from './presentation/commands/addUser.js'
 import config from './config/index.js'
 import DbFactory from './data/factories/dbFactory.js'
 ;(async () => {

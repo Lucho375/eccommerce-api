@@ -3,9 +3,7 @@ import { SwaggerTheme } from 'swagger-themes'
 import { fileURLToPath } from 'url'
 import { dirname, resolve } from 'path'
 
-const currentFileUrl = import.meta.url
-const currentFilePath = fileURLToPath(currentFileUrl)
-const currentDir = dirname(currentFilePath)
+const currentDir = dirname(fileURLToPath(import.meta.url))
 
 const options = {
   definition: {

@@ -1,13 +1,13 @@
-import { dependencies } from '../../constants/dependencies.js'
+import { CONTAINERS } from '../../constants/containers.js'
 import containers from '../../containers.js'
-import PasswordService from '../../services/passwordService.js'
+import { PasswordService } from '../../services/index.js'
 import { NotFoundError, ValidationError } from '../validations/ValidationError.js'
 
-class UserManager {
+export class UserManager {
   #userRepository
   #passwordService
   constructor() {
-    this.#userRepository = containers.resolve(dependencies.userDao)
+    this.#userRepository = containers.resolve(CONTAINERS.userDao)
     this.#passwordService = PasswordService
   }
 
@@ -17,7 +17,7 @@ class UserManager {
 
   async create(user) {
     const userExists = await this.#userRepository.getOne({ email: user.email })
-    if (userExists) throw new ValidationError('El email ya esta registrado')
+    if (userExists) throw new ValidationError('Email is already registered.')
     const createdUser = await this.#userRepository.create({
       ...user,
       password: await this.#passwordService.hash(user.password)
@@ -27,7 +27,7 @@ class UserManager {
 
   async getOne(value) {
     const user = await this.#userRepository.getOne(value)
-    if (!user) throw new NotFoundError('Usuario no encontrado')
+    if (!user) throw new NotFoundError('User not found')
     return user
   }
 
@@ -43,5 +43,3 @@ class UserManager {
     return this.#userRepository.deleteOne(id)
   }
 }
-
-export default UserManager

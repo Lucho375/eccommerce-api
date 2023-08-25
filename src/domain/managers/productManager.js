@@ -1,10 +1,10 @@
-import { dependencies } from '../../constants/dependencies.js'
+import { CONTAINERS } from '../../constants/containers.js'
 import containers from '../../containers.js'
 
 export class ProductManager {
   #productRepository
   constructor() {
-    this.#productRepository = containers.resolve(dependencies.productDao)
+    this.#productRepository = containers.resolve(CONTAINERS.productDao)
   }
 
   findAll(limit, category, sort) {

@@ -1,6 +1,6 @@
-import CloudinaryService from '../../services/cloudinaryService.js'
+import { CloudinaryService } from '../../services/index.js'
 
-export default function imageUploader(foldername) {
+export function imageUploader(foldername) {
   return async (req, res, next) => {
     try {
       const cloudinaryUploader = new CloudinaryService()

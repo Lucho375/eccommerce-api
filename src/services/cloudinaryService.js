@@ -2,7 +2,7 @@ import { v2 as cloudinary } from 'cloudinary'
 import config from '../config/index.js'
 import fs from 'fs/promises'
 
-class CloudinaryService {
+export class CloudinaryService {
   constructor() {
     cloudinary.config(config.cloudinaryConfig)
     this.cloudinary = cloudinary
@@ -21,5 +21,3 @@ class CloudinaryService {
     return uploadedImage
   }
 }
-
-export default CloudinaryService

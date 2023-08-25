@@ -20,6 +20,7 @@
     "no-empty": "off",
     "indent": "off",
     "quotes": ["error", "single"],
-    "camelcase": "off"
+    "camelcase": "off",
+    "semi": "error"
   }
 }

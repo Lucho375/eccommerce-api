@@ -1,4 +1,4 @@
-class Product {
+export class Product {
   constructor(props) {
     this.id = props.id
     this.title = props.title
@@ -13,5 +13,3 @@ class Product {
     this.updatedAt = props.updatedAt
   }
 }
-
-export default Product

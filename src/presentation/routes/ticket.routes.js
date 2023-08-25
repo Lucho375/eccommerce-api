@@ -1,10 +1,10 @@
 import { Router } from 'express'
-import TicketController from '../controllers/ticket.controller.js'
-import { isAuthenticated } from '../middlewares/auth/auth.js'
+import { TicketController } from '../controllers/index.js'
+import { asyncErrorWrapper, isAuthenticated } from '../middlewares/index.js'
 
 const router = Router()
 
-router.get('/', isAuthenticated, TicketController.getAll)
-router.get('/:tid', isAuthenticated, TicketController.getOne)
+router.get('/', isAuthenticated, asyncErrorWrapper(TicketController.getAll))
+router.get('/:tid', isAuthenticated, asyncErrorWrapper(TicketController.getOne))
 
 export default router
