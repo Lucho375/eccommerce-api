@@ -19,8 +19,7 @@ export class SessionController {
     const validatedBody = new ZodValidator(loginSchemaValidation).create(req.body)
     const manager = new SessionManager()
     const loginAttempt = await manager.login(validatedBody)
-    if (loginAttempt === null || loginAttempt === false)
-      return res.status(401).send({ ok: false, message: 'Wrong email or password' }) // Wrong email || wrong password
+    if (!loginAttempt) return res.status(401).send({ ok: false, message: 'Wrong email or password' }) // Wrong email || wrong password
     const { accessToken, refreshToken } = loginAttempt
     res
       .cookie('refreshToken', refreshToken, {

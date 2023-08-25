@@ -1,5 +1,6 @@
 import { Command } from 'commander'
-import UserManager from '../../domain/managers/userManager.js'
+import { UserManager } from '../../domain/index.js'
+import logger from '../../pino.js'
 
 const AddUserCommand = new Command('addUser')
 
@@ -23,10 +24,10 @@ AddUserCommand.version('0.0.1')
         ...env
       })
       if (created) {
-        console.log(`User ${created.firstname} created`)
+        logger.info(`User ${created.firstname} created`)
       }
     } catch (error) {
-      console.log(error.message)
+      logger.error(error.message)
     }
   })
 

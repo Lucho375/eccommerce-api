@@ -11,7 +11,7 @@ export class MongooseAdapter {
 
       logger.info('Connected to mongoose')
     } catch (err) {
-      console.error('Error connecting to mongoose:', err)
+      logger.error('Error connecting to mongoose:', err)
       throw err
     }
   }
@@ -19,9 +19,9 @@ export class MongooseAdapter {
   async close() {
     try {
       await mongoose.connection.close()
-      console.log('Mongoose connection closed')
+      logger.info('Mongoose connection closed')
     } catch (err) {
-      console.error('Error closing mongoose connection:', err)
+      logger.error('Error closing mongoose connection:', err)
       throw err
     }
   }
@@ -29,9 +29,9 @@ export class MongooseAdapter {
   async dropDatabase() {
     try {
       await mongoose.connection.dropDatabase()
-      console.log('Database dropped')
+      logger.info('Database dropped')
     } catch (err) {
-      console.error('Error dropping database')
+      logger.error('Error dropping database')
       throw err
     }
   }

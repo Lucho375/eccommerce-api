@@ -31,6 +31,18 @@ export class UserMongooseRepository {
     return UserModel.findByIdAndUpdate({ _id: id }, newPassword)
   }
 
+  async deleteInactive() {
+    const thirtyDaysAgo = new Date()
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+
+    const deletedUsers = await UserModel.deleteMany({
+      role: 'user',
+      last_connection: { $lt: thirtyDaysAgo }
+    })
+
+    return deletedUsers.deletedCount
+  }
+
   #transformUsers(data) {
     if (!data) return null
     if (Array.isArray(data)) {

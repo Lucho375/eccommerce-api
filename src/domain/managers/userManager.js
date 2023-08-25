@@ -42,4 +42,8 @@ export class UserManager {
   deleteOne(id) {
     return this.#userRepository.deleteOne(id)
   }
+
+  deleteInactive() {
+    return this.#userRepository.deleteInactive()
+  }
 }

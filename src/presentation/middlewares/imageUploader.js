@@ -8,7 +8,6 @@ export function imageUploader(foldername) {
       req.uploadedImage = uploadedImage.secure_url
       next()
     } catch (error) {
-      console.log(error)
       next(error)
     }
   }

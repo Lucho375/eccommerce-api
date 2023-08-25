@@ -16,8 +16,9 @@ export class AuthManager {
     const isValidPass = await this.passwordService.compare(password, user.password)
     if (!isValidPass) {
       await this.emailService.sendUnauthorizedLoginAlert({ email, firstname: user.firstname })
-      return false // Wrong password
+      return null // Wrong password
     }
+    await this.userManager.updateOne(user.id, { last_connection: new Date() })
     return this.tokenService.generateTokens(user)
   }
 
@@ -35,7 +36,6 @@ export class AuthManager {
   }
 
   async resetPassword({ token, password }) {
-    console.log(token, password)
     const decodedUser = this.tokenService.verifyPasswordToken(token)
     const hashedPassword = await this.passwordService.hash(password)
     const updatedUser = await this.userManager.updatePassword(decodedUser.id, { password: hashedPassword })

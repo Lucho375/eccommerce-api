@@ -10,7 +10,6 @@ export class PaymentService {
   }
 
   async createPaymentIntent(items) {
-    console.log(items)
     const paymentIntent = await this.service.paymentIntents.create({
       amount: 500 * 100,
       currency: 'ars'
