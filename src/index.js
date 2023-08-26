@@ -1,8 +1,8 @@
-import { DbFactory } from './data/factories/index.js'
-import { AppFactory } from './presentation/factories/index.js'
 import config from './config/index.js'
-import { CronScheduler } from './services/cronScheduler.js'
+import { DbFactory } from './data/factories/index.js'
 import { deleteInactiveUsers } from './presentation/crons/deleteInactiveUsers.js'
+import { AppFactory } from './presentation/factories/index.js'
+import { CronScheduler } from './services/index.js'
 ;(async () => {
   const db = DbFactory.create()
   await db.init(config.DB_URI)

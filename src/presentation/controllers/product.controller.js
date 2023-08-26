@@ -18,11 +18,13 @@ export class ProductController {
 
   static async createProduct(req, res) {
     const { price, stock } = req.body
+    const imageUrl = req?.uploadedImage
+    const thumbnail = imageUrl ? [imageUrl] : []
     const newProduct = new ZodValidator(productSchemaValidation).create({
       ...req.body,
       stock: +stock,
       price: +price,
-      thumbnail: [req.uploadedImage]
+      thumbnail
     })
     const manager = new ProductManager()
     const addedProd = await manager.createProduct(newProduct)

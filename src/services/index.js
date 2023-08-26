@@ -1,4 +1,5 @@
 export * from './cloudinaryService.js'
+export * from './cronScheduler.js'
 export * from './emails/emailService.js'
 export * from './emails/transporters/nodemailer/index.js'
 export * from './passwordService.js'

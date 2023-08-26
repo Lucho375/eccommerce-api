@@ -1,4 +1,4 @@
-import { UserManager } from '../../domain/index.js'
+import { UserManager, ZodValidator, userSchemaValidation } from '../../domain/index.js'
 
 export class UserController {
   static async getAll(req, res) {
@@ -8,8 +8,9 @@ export class UserController {
   }
 
   static async create(req, res) {
+    const userToCreate = new ZodValidator(userSchemaValidation).create(req.body)
     const manager = new UserManager()
-    const newUser = await manager.create(req.body)
+    const newUser = await manager.create(userToCreate)
     res.status(201).send({ ok: true, payload: newUser })
   }
 
@@ -22,8 +23,9 @@ export class UserController {
 
   static async updateOne(req, res) {
     const { id } = req.params
+    const update = new ZodValidator(userSchemaValidation).update(req.body)
     const manager = new UserManager()
-    const updatedUser = await manager.updateOne(id, req.body)
+    const updatedUser = await manager.updateOne(id, update)
     res.status(200).send({ ok: true, payload: updatedUser })
   }
 

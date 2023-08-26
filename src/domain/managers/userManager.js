@@ -27,11 +27,13 @@ export class UserManager {
 
   async getOne(value) {
     const user = await this.#userRepository.getOne(value)
-    if (!user) throw new NotFoundError('User not found')
     return user
   }
 
-  updateOne(id, update) {
+  async updateOne(id, update) {
+    if (update?.password) {
+      update.password = await this.#passwordService.hash(update.password)
+    }
     return this.#userRepository.updateOne(id, update)
   }
 

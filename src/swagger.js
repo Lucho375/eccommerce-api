@@ -1,7 +1,7 @@
+import { dirname, resolve } from 'path'
 import swaggerJSDoc from 'swagger-jsdoc'
 import { SwaggerTheme } from 'swagger-themes'
 import { fileURLToPath } from 'url'
-import { dirname, resolve } from 'path'
 
 const currentDir = dirname(fileURLToPath(import.meta.url))
 

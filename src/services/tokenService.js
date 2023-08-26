@@ -1,5 +1,5 @@
-import jwt from 'jsonwebtoken'
 import 'dotenv/config'
+import jwt from 'jsonwebtoken'
 import config from '../config/index.js'
 export class TokenService {
   generateTokens(user) {

@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { SessionController } from '../controllers/index.js'
-import { upload, imageUploader, asyncErrorWrapper, isAuthenticated } from '../middlewares/index.js'
+import { asyncErrorWrapper, isAuthenticated } from '../middlewares/index.js'
 
 const sessionRoutes = Router()
 

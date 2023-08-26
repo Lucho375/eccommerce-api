@@ -1,4 +1,4 @@
-import { Product } from '../../../domain/index.js'
+import { Product, ValidationError } from '../../../domain/index.js'
 import { ProductModel } from '../../models/index.js'
 
 export class ProductMongooseRepository {
@@ -11,6 +11,8 @@ export class ProductMongooseRepository {
   }
 
   async createProduct(newProduct) {
+    const existingCode = await ProductModel.findOne({ code: newProduct.code })
+    if (existingCode) throw new ValidationError(`Product code '${newProduct.code}' already exists!`)
     const product = await ProductModel.create(newProduct)
     return this.#transformProducts(product)
   }

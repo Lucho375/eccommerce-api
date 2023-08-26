@@ -48,7 +48,7 @@ export class CartController {
   static async checkout(req, res) {
     const { cid } = req.params
     const manager = new CartManager()
-    const buyDetails = await manager.checkout(cid)
-    res.status(200).send({ ok: true, payload: buyDetails })
+    const totalAmount = await manager.checkout(cid)
+    res.status(200).send({ ok: true, payload: totalAmount })
   }
 }

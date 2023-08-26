@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { ProductController } from '../controllers/index.js'
-import { imageUploader, upload, asyncErrorWrapper, isAdmin, isAuthenticated } from '../middlewares/index.js'
+import { asyncErrorWrapper, imageUploader, isAdmin, isAuthenticated, upload } from '../middlewares/index.js'
 
 const productsRoutes = Router()
 

@@ -4,7 +4,7 @@ export const userSchemaValidation = z.object({
   firstname: z.string().nonempty('Firstname field is required'),
   lastname: z.string().nonempty('Lastname field is required'),
   password: z.string().min(8, 'Password min 8 characters').nonempty('Password field is required'),
-  age: z.number().int().positive('Age must be a number').default(18),
+  age: z.number().int().positive('Age must be a number').max(80).default(18),
   email: z.string().email('Invalid email address'),
   role: z.enum(['user', 'admin']).default('user'),
   enabled: z.boolean().default(true),

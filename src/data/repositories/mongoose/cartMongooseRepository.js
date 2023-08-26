@@ -48,9 +48,9 @@ export class CartMongooseRepository {
       .populate('user', '-_id email')
       .populate('products._id', 'price')
     return {
-      ...cartToCheckout._doc,
+      ...cartToCheckout.toObject(),
       products: cartToCheckout.products.map(({ _id, quantity }) => ({
-        id: _id._id,
+        id: _id._id.toString(),
         price: _id.price,
         quantity
       }))

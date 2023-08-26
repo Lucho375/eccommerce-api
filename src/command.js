@@ -1,8 +1,8 @@
 import { program } from 'commander'
-import AddUserCommand from './presentation/commands/addUser.js'
 import config from './config/index.js'
 import { DbFactory } from './data/factories/index.js'
 import logger from './pino.js'
+import AddUserCommand from './presentation/commands/addUser.js'
 ;(async () => {
   let db
   try {

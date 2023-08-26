@@ -1,4 +1,4 @@
-import { createContainer, asClass } from 'awilix'
+import { asClass, createContainer } from 'awilix'
 import {
   CartMongooseRepository,
   ProductMongooseRepository,

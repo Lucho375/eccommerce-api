@@ -46,7 +46,7 @@ export class UserMongooseRepository {
   #transformUsers(data) {
     if (!data) return null
     if (Array.isArray(data)) {
-      return data.map(user => new User({ id: user._id.toString(), ...user.toObject() }))
+      return data.map(user => new User({ id: user._id.toString(), ...user.toObject(), password: undefined }))
     }
     return new User({
       id: data._id.toString(),

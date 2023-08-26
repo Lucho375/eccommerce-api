@@ -18,6 +18,8 @@ export class CartManager {
   }
 
   async create(cart) {
+    const existingCart = await this.cartRepository.get(cart?.user)
+    if (existingCart) throw new ValidationError('Cart already exists!')
     const cartInDb = await this.cartRepository.create(cart)
     return this.#transformCart(cartInDb)
   }
@@ -67,7 +69,7 @@ export class CartManager {
       }
     }
 
-    const ticket = await this.ticketManager.create({
+    await this.ticketManager.create({
       amount: totalAmount,
       purchaser: checkoutCart.user.email,
       products: checkoutCart.products
@@ -75,7 +77,7 @@ export class CartManager {
 
     await this.cartRepository.deleteAllProducts(cid)
 
-    return ticket
+    return totalAmount
   }
 
   #transformCart(data) {
