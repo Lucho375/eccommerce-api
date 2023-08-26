@@ -1,0 +1,893 @@
+{
+	"info": {
+		"_postman_id": "b79933ce-6398-4ecc-8f97-cbfc38705a18",
+		"name": "BackendFinal",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26489550"
+	},
+	"item": [
+		{
+			"name": "PRODUCTS",
+			"item": [
+				{
+					"name": "GET ALL 🔒",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json()\r",
+									"pm.environment.set(\"PID\", response.payload[0].id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/products",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE 🔒 ADMIN",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NWYxNTIxMjkzNTAzNmM4MGI1MWJmMyIsImZpcnN0bmFtZSI6Ikx1Y2lhbm8iLCJsYXN0bmFtZSI6IlJvZHJpZ3VleiIsImVtYWlsIjoibHVjaWFuby5yb2RyaWd1ZXo1OUBnbWFpbC5jb20iLCJpYXQiOjE2ODQ0MzY2MDQsImV4cCI6MTY4NDQzNjYzNH0.NBYmgbH6p1XQDa85pYyw6L9bIRWctARkVKZe8ejUU30",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Nuevo prod",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Description",
+									"type": "text"
+								},
+								{
+									"key": "code",
+									"value": "CODE55123123e2",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "150",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "celulares",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "stock",
+									"value": "5",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{APIURL}}/products",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT 🔒 ADMIN",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"New Name\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APIURL}}/products/{{PID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"products",
+								"{{PID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ONE 🔒",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/products/{{PID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"products",
+								"{{PID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE 🔒 ADMIN",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/products/{{PID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"products",
+								"{{PID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Carts",
+			"item": [
+				{
+					"name": "Get ONE 🔒",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/carts/{{USERID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"carts",
+								"{{USERID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create 🔒",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"CARTID\", pm.response.json().payload.id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\": \"{{USERID}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APIURL}}/carts",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"carts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ADD PRODUCT 🔒",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/carts/{{CARTID}}/products/{{PID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"carts",
+								"{{CARTID}}",
+								"products",
+								"{{PID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE PRODUCT 🔒",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/carts/{{CARTID}}/products/{{PID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"carts",
+								"{{CARTID}}",
+								"products",
+								"{{PID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE PRODUCT QUANTITY 🔒",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quantity\": 8\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APIURL}}/carts/{{CARTID}}/products/{{PID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"carts",
+								"{{CARTID}}",
+								"products",
+								"{{PID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CLEAR CART 🔒",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/carts/{{CARTID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"carts",
+								"{{CARTID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CHECKOUT 🔒",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/carts/{{CARTID}}/purchase",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"carts",
+								"{{CARTID}}",
+								"purchase"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SESSIONS",
+			"item": [
+				{
+					"name": "SIGNUP",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\": \"{{FIRSTNAME}}\",\r\n    \"lastname\": \"{{LASTNAME}}\",\r\n    \"email\": \"{{EMAIL}}\",\r\n    \"age\": {{AGE}},\r\n    \"password\": \"{{PASSWORD}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APIURL}}/sessions/signup",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"sessions",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LOGIN",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"let accessToken = responseJson.payload.accessToken;\r",
+									"pm.environment.set(\"accessToken\", accessToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// USER LOGIN\r\n// {\r\n//     \"email\": \"{{EMAIL}}\",\r\n//     \"password\": \"{{PASSWORD}}\"\r\n// }\r\n\r\n// ADMIN LOGIN\r\n{\r\n    \"email\": \"{{ADMIN_EMAIL}}\",\r\n    \"password\": \"{{ADMIN_PASSWORD}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APIURL}}/sessions/login",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"sessions",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET FORGOT PASS EMAIL",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{EMAIL}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APIURL}}/sessions/forgot-password",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"sessions",
+								"forgot-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RESET PASSWORD",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"{{PASSWORD}}\",\r\n    \"token\": \"{{RESET_PASSWORD_TOKEN}}\" // setear en el environment el token que se envio por email\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APIURL}}/sessions/reset-password",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"sessions",
+								"reset-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LOGOUT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"accessToken\", \"\") // falta blacklist del token"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/sessions/logout",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"sessions",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "REFRESH TOKEN 🔒",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json()\r",
+									"pm.environment.set(\"accessToken\", response.payload)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NWYxNTIxMjkzNTAzNmM4MGI1MWJmMyIsImZpcnN0bmFtZSI6Ikx1Y2lhbm8iLCJsYXN0bmFtZSI6IlJvZHJpZ3VleiIsImVtYWlsIjoibHVjaWFuby5yb2RyaWd1ZXo1OUBnbWFpbC5jb20iLCJpbWFnZSI6Imh0dHBzOi8vcmVzLmNsb3VkaW5hcnkuY29tL2RrcnV3YWU2ai9pbWFnZS91cGxvYWQvdjE2ODIzNzM2NDQvdXNlcnMvZ2hzNHdlcmpyenRzemZsbXhvZHcud2VicCIsInJvbGVzIjoiYWRtaW4iLCJpYXQiOjE2ODQ0NDYzNzksImV4cCI6MTY4NDQ0NjM5NH0.XTrxJexxW3XuLJjXcuhhOCvQKwmIj8yNVkgqfvvKlQ4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/sessions/refresh-token",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"sessions",
+								"refresh-token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CURRENT 🔒",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"USERID\", pm.response.json().payload.id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/sessions/current",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"sessions",
+								"current"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "USERS 🔒 ADMIN ONLY",
+			"item": [
+				{
+					"name": "GET ALL 🔒",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json()\r",
+									"pm.environment.set(\"USER_UPDATE_ID\", response.payload[0].id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/users",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ONE 🔒",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/users/{{USER_UPDATE_ID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"users",
+								"{{USER_UPDATE_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE ONE 🔒",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\": \"firstname\",\r\n    \"email\": \"emaail@email.com\",\r\n    \"password\": \"123456789\",\r\n    \"lastname\": \"lastname\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APIURL}}/users",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE ONE 🔒",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{APIURL}}/users/{{USER_UPDATE_ID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"users",
+								"{{USER_UPDATE_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE ONE🔒",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"age\": 26,\r\n    \"enabled\": true\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APIURL}}/users/{{USER_UPDATE_ID}}",
+							"host": [
+								"{{APIURL}}"
+							],
+							"path": [
+								"users",
+								"{{USER_UPDATE_ID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
